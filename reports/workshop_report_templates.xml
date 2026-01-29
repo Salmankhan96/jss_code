@@ -1,0 +1,120 @@
+<odoo>
+    <template id="report_workshop_pdf_template">
+        <t t-call="web.basic_layout">
+            <t t-foreach="docs" t-as="doc">
+                <div class="page" style="font-family: Arial, sans-serif; font-size: 12px;">
+                    <style>
+                        @page {
+                            size: A4 landscape;
+                            margin: 10mm;
+                        }
+                        .workshop-table {
+                            width: 100%;
+                            border-collapse: collapse;
+                            border: 2px solid #000;
+                        }
+                        .workshop-table th,
+                        .workshop-table td {
+                            border: 1px solid #000;
+                            padding: 5px;
+                            text-align: center;
+                            vertical-align: top;
+                        }
+                        .header-cell {
+                            background-color: #f0f0f0;
+                            font-weight: bold;
+                            padding: 8px;
+                        }
+                        .company-header {
+                            text-align: center;
+                            font-weight: bold;
+                            font-size: 16px;
+                            padding: 10px;
+                        }
+                        .register-title {
+                            text-align: center;
+                            font-weight: bold;
+                            font-size: 14px;
+                            padding: 5px;
+                        }
+                        .supplier-section {
+                            text-align: left;
+                            padding: 5px;
+                        }
+                        .row-lines {
+                            height: 25px;
+                        }
+                    </style>
+
+                    <table class="workshop-table">
+                        <tr>
+                            <td colspan="6" class="company-header">
+                                WORKSHOP REGISTER
+                            </td>
+                            <td colspan="6" class="register-title">
+<!--                                JSS AVIATION ENGINEERING AND MAINTENANCE PVT. LTD.-->
+                                <span t-esc="doc.company_id.name"/>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td colspan="12" class="supplier-section" style="text-align: left;">
+                                <strong>NAME OF SUPPLIER:</strong> <span t-esc="doc.supplier_id.name if doc.supplier_id else '__________________________________________'"/>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <th colspan="6" class="header-cell">INCOMING RECORD</th>
+                            <th colspan="5" class="header-cell">WORK AND DISPATCH RECORD</th>
+                        </tr>
+
+                        <tr>
+                            <th class="header-cell" style="width: 8%;">DATE</th>
+                            <th class="header-cell" style="width: 8%;">SO/PO/RO No.<br/>&amp; DATE</th>
+                            <th class="header-cell" style="width: 12%;">DESCRIPTION</th>
+                            <th class="header-cell" style="width: 8%;">PART NO.</th>
+                            <th class="header-cell" style="width: 5%;">QTY</th>
+                            <th class="header-cell" style="width: 5%;">SIGN</th>
+                            <th class="header-cell" style="width: 10%;">TASK TO BE<br/>DONE</th>
+                            <th class="header-cell" style="width: 8%;">HANDOVER<br/>TO</th>
+                            <th class="header-cell" style="width: 5%;">SIGN</th>
+                            <th class="header-cell" style="width: 8%;">CHALLAN NO./DATE</th>
+                            <th class="header-cell" style="width: 8%;">REMARKS</th>
+                        </tr>
+
+                        <tbody>
+                            <t t-foreach="doc.product_line_ids" t-as="line">
+                                <tr class="row-lines">
+                                    <td>
+                                        <t t-if="line.doc_current_date">
+                                        <span t-esc="line.doc_current_date.strftime('%d-%m-%Y')"/>
+                                        </t>
+                                    </td>
+                                    <td>
+                                        <span t-esc="line.so_po_ro_no"/><br/>
+                                        <t t-if="line.doc_manual_date or line.doc_current_date">
+                                            <span t-esc="line.doc_manual_date.strftime('%d-%m-%Y') if line.manual_date else line.doc_current_date.strftime('%d-%m-%Y')"/>
+                                        </t>
+                                    </td>
+                                    <td><span t-esc="line.product_id.display_name or ''"/></td>
+                                    <td><span t-esc="line.product_id.default_code or ''"/></td>
+                                    <td><span t-esc="line.quantity or ''"/></td>
+                                    <td><span t-esc="line.signature.name or ''"/></td>
+
+                                    <td><span t-esc="line.task_to_be_done or ''"/></td>
+                                    <td><span t-esc="line.handover_to or ''"/></td>
+                                    <td><span t-esc="line.sign_by.name or ''"/></td>
+
+                                    <td><span t-esc="line.challan_no or ''"/></td>
+                                    <td><span t-esc="line.remarks or ''"/></td>
+                                </tr>
+                            </t>
+                        </tbody>
+
+                    </table>
+
+                </div>
+            </t>
+        </t>
+    </template>
+</odoo>

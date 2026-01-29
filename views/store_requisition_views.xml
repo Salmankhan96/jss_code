@@ -1,0 +1,101 @@
+<odoo>
+    <record id="view_store_requisition_form" model="ir.ui.view">
+        <field name="name">store.requisition.form</field>
+        <field name="model">store.requisition</field>
+        <field name="arch" type="xml">
+            <form string="Store Requisition">
+                <header>
+                    <button name="action_store_requisition_report" string="Store Requisition" type="object" class="btn-primary"/>
+                </header>
+                <sheet>
+                        <h1><field name="name"/></h1>
+                    <group>
+                        <group>
+                            <field name="customer"/>
+                            <field name="assy_part_no"/>
+                            <field name="assy_description"/>
+                            <label for="assy_part_no" string="Raised by (Name &amp; Sign)"/>
+                                <div class="o_address_format">
+                                    <field name="by_issue"  class="o_address_city"/>
+                                    <field name="raised_by" class="o_address_state"  options="{&quot;no_open&quot;: True}"/>
+                                    <field name="raised_by_signature"  widget="signature" style="width: 250px; height: 100px;" class="o_address_zip"/>
+                                </div>
+                            <field name="issued_by"/><field name="issued_by_signature" widget="signature" style="width: 250px; height: 100px;"/>
+                        </group>
+                        <group>
+                            <field name="dated"/>
+                            <field name="procedure_sheet_no" string="Procedure Sheet No./ Workorder No."/>
+                            <field name="assy_serial_number"/>
+                            <field name="location_and_shop"/>
+                             <field name="form_no"/>
+                            <field name="issue_date"/>
+                        </group>
+                        <group>
+                            <field name="remarks"/>
+                        </group>
+                    </group>
+
+                    <notebook>
+                        <page string="Line Items">
+                            <field name="line_ids">
+                                <tree editable="bottom">
+                                    <field name="sn"/>
+                                    <field name="description"/>
+                                    <field name="part_no"/>
+                                    <field name="qty_requested"/>
+                                    <field name="qty_issued"/>
+                                    <field name="release_no"/>
+                                    <field name="batch_no"/>
+                                    <field name="serial_no"/>
+                                    <field name="us_item_sn"/>
+                                    <field name="us_qty_returned"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Company">
+                            <group>
+                                <group>
+                                    <label for="street" string="Address"/>
+                                        <div class="o_address_format">
+                                            <field name="street" placeholder="Street..." class="o_address_street"/>
+                                            <field name="street2" placeholder="Street 2..." class="o_address_street"/>
+                                            <field name="city" placeholder="City" class="o_address_city"/>
+                                            <field name="state_id" class="o_address_state" placeholder="State" options="{&quot;no_open&quot;: True}"/>
+                                            <field name="zip" placeholder="ZIP" class="o_address_zip"/>
+                                            <field name="country_id" placeholder="Country" class="o_address_country" options="{&quot;no_open&quot;: True, &quot;no_create&quot;: True}"/>
+                                        </div>
+                                    </group>
+                                <group></group>
+                                </group>
+                        </page>
+                    </notebook>
+
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_store_requisition_tree" model="ir.ui.view">
+        <field name="name">store.requisition.tree</field>
+        <field name="model">store.requisition</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+                <field name="customer"/>
+                <field name="assy_part_no"/>
+                <field name="dated"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="action_store_requisition" model="ir.actions.act_window">
+        <field name="name">Store Requisition</field>
+        <field name="res_model">store.requisition</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+
+     <menuitem id="store_requisition_action_menu" name="Store Requisition"
+              parent="menu_logistics_root"
+              action="action_store_requisition" sequence="10"/>
+</odoo>

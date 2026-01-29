@@ -1,0 +1,34 @@
+<odoo>
+
+    <record id="action_report_logistics_grn" model="ir.actions.report">
+        <field name="name">Logistics Unserviceable</field>
+        <field name="model">logistics.unservice.item</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">jss_code.report_logistics_grn</field>
+        <field name="report_file">jss_code.report_logistics_grn</field>
+        <field name="print_report_name">'Unserviceable Item - %s' % (object.name or 'N/A')</field>
+        <field name="paperformat_id" ref="jss_code.paperformat_workshop_register_landscape"/>
+    </record>
+    <record id="action_report_serviceable_items" model="ir.actions.report">
+        <field name="name">Serviceable Report Item</field>
+        <field name="model">logistics.service.item</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">jss_code.report_serviceable_items</field>
+        <field name="report_file">jss_code.report_serviceable_items</field>
+        <field name="print_report_name">'Serviceable Item - %s' % (object.name or 'N/A')</field>
+        <field name="binding_model_id" ref="jss_code.model_logistics_service_item"/>
+        <field name="binding_type">report</field>
+        <field name="paperformat_id" ref="jss_code.paperformat_workshop_register_landscape"/>
+    </record>
+
+
+     <record id="action_report_store_requisition" model="ir.actions.report">
+        <field name="name">Store Requisition</field>
+        <field name="model">store.requisition</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">jss_code.report_store_requisition</field>
+        <field name="report_file">jss_code.report_store_requisition</field>
+        <field name="print_report_name">'Store Requisition - %s' % (object.name or 'N/A')</field>
+        <field name="paperformat_id" ref="jss_code.paperformat_workshop_register_landscape"/>
+    </record>
+</odoo>

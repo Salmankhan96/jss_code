@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data noupdate="1">
+        <record id="email_template_permission_request" model="mail.template">
+            <field name="name">Permission Request Notification</field>
+            <field name="model_id" ref="jss.model_workshop_register"/>
+            <field name="subject">Permission Request for ${object.name} (Edit)</field>
+            <field name="email_from">${(user.email_formatted or user.company_id.email_formatted) if user else ''}</field>
+            <field name="email_to">${','.join(engineer_users.mapped('partner_id.email'))}</field>
+            <field name="body_html" type="html">
+                <![CDATA[
+                    <p>Dear Engineer,</p>
+                    <p>A new edit permission has been requested for the Workshop Register record: <strong>${object.name}</strong>.</p>
+                    <p>Requested By: ${user.name}</p>
+                    <p>Requested On: ${object.write_date}</p>
+                    <p>Thank you,</p>
+                    <p>${user.company_id.name}</p>
+                ]]>
+            </field>
+            <field name="auto_delete" eval="True"/>
+            <field name="lang">${object.lang}</field>
+        </record>
+    </data>
+</odoo>
+
+<!--access_repair_jss_user,repair.jss,model_repair_jss,,1,0,0,0-->
+<!--access_aircraft_type,Aircraft type,model_aircraft_type,,1,0,0,0-->
+<!--access_delivery_challan,Delivery Challan,model_delivery_challan,,1,0,0,0-->
+<!--access_job_allocation_form,Job Allocation Form,model_job_allocation_form,,1,0,0,0-->
+<!--access_aircraft_component_workorder,Aircraft Component Work Order,model_aircraft_component_workorder,,1,0,0,0-->
+<!--access_requisition_slip,requisition.slip,model_requisition_slip,,1,0,0,0-->
+<!--model_name = self._name-->
+<!--model_line_name = model_name + '.line'-->
+<!--model_id = self.env['ir.model'].search([('model','in',(model_name,model_line_name))]).ids-->
+<!--user_planning = self.env['res.groups'].search([('name', '=', 'Planning')], limit=1)-->
+<!--user_workshop_manager = self.env['res.groups'].search([('name', '=', 'Workshop Manager')], limit=1)-->
+<!--# pending_request.user_id.groups_id-->
+<!--user_to_permit = False-->
+<!--for i in pending_request.user_id.groups_id.ids:-->
+<!--    if user_planning.id == i:-->
+<!--        user_to_permit = user_planning.id-->
+<!--access_model = self.env['ir.model.access'].search([('model_id','in',model_id),('group_id','=',user_to_permit)])-->
+<!--if access_model:-->
+<!--    access_model.write({'perm_write': True})-->

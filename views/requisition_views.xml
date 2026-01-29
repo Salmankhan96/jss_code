@@ -1,0 +1,95 @@
+<odoo>
+    <record id="view_requisition_slip_tree" model="ir.ui.view">
+        <field name="name">requisition.slip.tree</field>
+        <field name="model">requisition.slip</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="workorder_id"/>
+                <field name="date"/>
+                <field name="person_name"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_requisition_slip_form" model="ir.ui.view">
+        <field name="name">requisition.slip.form</field>
+        <field name="model">requisition.slip</field>
+        <field name="arch" type="xml">
+            <form string="Requisition Slip">
+                <header>
+                    <header>
+                        <button name="action_grant_edit_permission" type="object" string="Grant Edit" class="btn-primary"
+                            groups="jss_code.group_engineer" invisible="not can_show_grant_edit"/>
+                        <button name="action_grant_download_permission" type="object" string="Grant Download" class="btn-success"
+                                groups="jss_code.group_engineer" invisible="not can_show_grant_download"/>
+
+                        <button name="action_request_edit" type="object" string="Request Edit"
+                                invisible="not can_show_request_edit"
+                                groups="jss_code.group_operations,jss_code.group_workshop_manager,jss_code.group_certifying_staff"/>
+                        <button name="action_request_download" type="object" string="Request Download"
+                                invisible="not can_show_request_download"
+                                groups="jss_code.group_operations,jss_code.group_workshop_manager,jss_code.group_certifying_staff,jss_code.group_store"/>
+                        <button name="action_generate_pdf"
+                            type="object"
+                            string="Download PDF"
+                            class="btn-primary"
+                            icon="fa-download"
+                            invisible="not can_download_pdf"/>
+                    </header>
+                </header>
+                <sheet>
+                    <group>
+                        <field name="has_edit_request" invisible="1"/>
+                        <field name="has_download_request" invisible="1"/>
+                        <field name="is_engineer" invisible="1"/>
+                        <field name="can_show_grant_edit" invisible="1"/>
+                        <field name="can_show_grant_download" invisible="1"/>
+                        <field name="can_show_request_edit" invisible="1"/>
+                        <field name="can_show_request_download" invisible="1"/>
+                        <field name="can_download_pdf" invisible="1"/>
+                        <field name="can_edit_signature" invisible="1"/>
+                        <field name="workorder_id"/>
+                        <field name="date"/>
+                    </group>
+                    <group>
+                        <field name="person_name"/>
+                        <field name="signature" widget="signature" style="width: 250px; height: 100px;" readonly="not can_edit_signature"/>
+                        <field name="date_sign"/>
+                        <field name="role_field" invisible="1"/>
+                    </group>
+                    <group>
+                        <field name="serial_no"/>
+                    </group>
+                    <notebook>
+                        <page string="Material Lines">
+                            <field name="line_ids">
+                                <tree editable="bottom">
+                                    <field name="serial_no" string="S.No"/>
+                                    <field name="material"/>
+                                    <field name="part_number"/>
+                                    <field name="batch_number"/>
+                                    <field name="lot_number"/>
+                                    <field name="quantity"/>
+                                    <field name="remarks"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter" groups="jss_code.group_super_user">
+                    <field name="message_follower_ids" widget="mail_followers"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_requisition_slip" model="ir.actions.act_window">
+        <field name="name">Requisition Slips</field>
+        <field name="res_model">requisition.slip</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="menu_requisition_slip" name="Requisition Slips"
+              parent="menu_workshop_root" action="action_requisition_slip" sequence="2"/>
+</odoo>

@@ -1,0 +1,119 @@
+<odoo>
+    <record id="view_logistics_unservice_form" model="ir.ui.view">
+        <field name="name">logistics.unservice.item.form</field>
+        <field name="model">logistics.unservice.item</field>
+        <field name="arch" type="xml">
+            <form string="Logistics Unserviceable Item">
+                   <header>
+                       <button name="action_goods"
+                                string="Prepare Goods"
+                                type="object"
+                                class="btn-primary"
+                                invisible="stage == 'handover' or stage == 'prepare_goods'"/>
+                       <button name="action_handover"
+                                string="Hand Over to Planning"
+                                type="object"
+                                class="btn-primary"
+                                invisible="stage == 'handover' or stage == 'new'"/>
+                       <button name="action_back_to_new"
+                                string="Back to New"
+                                type="object"
+                                class="btn-secondary"
+                                invisible="stage == 'new'"/>
+
+                       <button name="print_grn_pdf" string="Print GRN" type="object" class="btn-primary" invisible="stage != 'handover'"/>
+
+                       <field name="stage" widget="statusbar" statusbar_visible="new,prepare_goods,handover"/>
+                   </header>
+                <sheet>
+                     <div class="oe_title">
+                        <h1>
+                            <field name="name" readonly="1"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="grn_date" string="Date"/>
+                            <field name="servicability"/>
+                            <field name="customer_id"/>
+                            <field name="remarks"/>
+                        </group>
+                        <group>
+                            <field name="order_type"/>
+                            <field name="order_value" string="Order No."/>
+                            <field name="order_date"/>
+                            <field name="identification_tag" invisible="stage == 'new'"/>
+                            <field name="signature" widget="signature" string="Signature"/>
+
+                        </group>
+                        <group string="Handover Details">
+                            <field name="procedure_sheet" invisible="stage != 'handover'"/>
+                            <field name="procedure_sheet_other" invisible="procedure_sheet != 'others' or stage != 'handover'"/>
+                            <field name="received_by" invisible="stage != 'handover'"/>
+                            <field name="customer_id" invisible="stage != 'handover' or received_by != 'customer'"/>
+
+                        </group>
+                    </group>
+                    <notebook invisible="stage == 'new'">
+                        <page string="Products">
+                            <field name="unservice_item_line_ids">
+                                <tree editable="bottom">
+                                    <field name="description"/>
+                                    <field name="product_id"/>
+                                    <field name="identifier_value" string="S.No/Lot No./Batch No."/>
+                                    <field name="aircraft_type"/>
+                                    <field name="registration_no"/>
+                                    <field name="quantity"/>
+                                    <field name="product_uom"/>
+                                    <field name="expiry"/>
+                                    <field name="location_id"/>
+                                    <field name="condition_remarks"/>
+                                </tree>
+                            </field>
+                        </page>
+                         <page string="Company">
+                            <group>
+                                <group>
+                                    <label for="street" string="Address"/>
+                                        <div class="o_address_format">
+                                            <field name="street" placeholder="Street..." class="o_address_street"/>
+                                            <field name="street2" placeholder="Street 2..." class="o_address_street"/>
+                                            <field name="city" placeholder="City" class="o_address_city"/>
+                                            <field name="state_id" class="o_address_state" placeholder="State" options="{&quot;no_open&quot;: True}"/>
+                                            <field name="zip" placeholder="ZIP" class="o_address_zip"/>
+                                            <field name="country_id" placeholder="Country" class="o_address_country" options="{&quot;no_open&quot;: True, &quot;no_create&quot;: True}"/>
+                                        </div>
+                                    </group>
+                                <group></group>
+                                </group>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_logistics_unservice_tree" model="ir.ui.view">
+        <field name="name">logistics.unservice.item.tree</field>
+        <field name="model">logistics.unservice.item</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+                <field name="grn_date"/>
+                <field name="servicability"/>
+                <field name="customer_id"/>
+                <field name="order_type"/>
+                <field name="order_value"/>
+                <field name="order_date"/>
+                <field name="stage"/>
+            </tree>
+        </field>
+    </record>
+    <record id="action_logistics_unservice" model="ir.actions.act_window">
+        <field name="name">Unserviceable Item</field>
+        <field name="res_model">logistics.unservice.item</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    <menuitem id="menu_logistics_root" name="Logistics" web_icon="jss_code,static/img/logistics.png"/>
+    <menuitem id="menu_logistics_unservice" name="Unserviceable" parent="menu_logistics_root" action="action_logistics_unservice"/>
+</odoo>

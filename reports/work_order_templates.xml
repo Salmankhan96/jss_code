@@ -1,0 +1,695 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="template_workorder_pdf">
+        <t t-call="web.basic_layout">
+            <t t-foreach="docs" t-as="doc">
+                <div class="page" style="font-family: Arial, sans-serif; font-size: 12px;">
+                    <style>
+    @page {
+        size: A4;
+        margin: 10mm;
+    }
+    .page {
+        height: 277mm; /* ~A4 page height minus margins */
+        overflow: hidden;
+        box-sizing: border-box;
+        padding-top: 10px !important;
+    }
+    .table th, .table td {
+        padding: 4px !important;
+        margin: 0 !important;
+        vertical-align: top;
+    }
+
+</style>
+                    <table class="table table-bordered" style="border:1px solid black;">
+                        <tbody>
+                            <tr>
+                               <td style="text-align: center; width: 30%; padding: 5px; border-right: 1px solid black; vertical-align: top;">
+                                <img t-if="doc.company_id.logo"
+                                     t-att-src="'data:image/png;base64,%s' % doc.company_id.logo.decode('utf-8')"
+                                     style="padding-top:25px;width: 100%; height: auto; max-height: 100px; object-fit: contain;margin-top:-25px;margin-bottom:-37px;"/>
+                            </td>
+
+                                <td colspan="3" style="width: 70%; text-align: center; padding: 5px; font-size: 25px; font-weight: bold; vertical-align: middle; color: blue;">
+                                    <span t-field="doc.company_id.name"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th colspan="4">
+                                    Aircraft Component Work Order Form (JSS/FR/007)
+                                </th>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <strong>Operator's Name</strong>
+                                </td>
+                                <td>
+                                    <t t-if="docs and docs.operator_name_id">
+                                        <span t-field="doc.operator_name_id"/>
+                                    </t>
+                                </td>
+                                <td>
+                                    <strong>Aircraft Type</strong>
+                                </td>
+                                <td>
+                                    <t t-if="docs and docs.aircraft_type_id">
+                                        <span t-field="doc.aircraft_type_id"/>
+                                    </t>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <strong>Operator's W/O No</strong>
+                                </td>
+                                <td>
+                                    <t t-if="docs and docs.operator_work_order_no">
+                                        <span t-field="docs.operator_work_order_no"/>
+                                    </t>
+                                </td>
+                                <td>
+                                    <strong>Issue Date</strong>
+                                </td>
+                                <td>
+                                   <t t-if="docs and docs.doc_operator_issue_date">
+                                        <span t-esc="docs.doc_operator_issue_date.strftime('%d/%m/%Y %H:%M')"/>
+                                    </t>
+
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <strong>AMO's W/O No</strong>
+                                </td>
+                                <td>
+                                    <t t-if="docs and docs.amo_work_order_no">
+                                        <span t-field="docs.amo_work_order_no"/>
+                                    </t>
+                                </td>
+                                <td>
+                                    <strong>Issue Date</strong>
+                                </td>
+                                <td>
+                                    <t t-if="docs and docs.amo_issue_date">
+                                        <span t-esc="docs.doc_amo_issue_date.strftime('%d/%m/%Y %H:%M')"/>
+                                    </t>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <table class="table table-bordered" style="border:1px solid black;">
+                        <tbody>
+                            <tr>
+                                <td style="width: 30%">
+                                    <strong>Issued By</strong>
+                                </td>
+                                <t t-if="user.has_group('jss_code.group_deputy_workshop_manager')">
+                                    <td style="width: 28%">
+                                        <strong>Workshop Manager/<br></br>Deputy Workshop Manager</strong>
+                                    </td>
+                                </t>
+                                <t t-else="user.has_group('jss_code.group_workshop_manager')">
+                                    <td style="width: 28%">
+                                        <strong>Workshop Manager/<br></br>Deputy Workshop Manager</strong>
+                                    </td>
+                                </t>
+                                <td style="width: 17%">
+                                    <strong>Accepted By</strong>
+                                </td>
+                                <td>
+                                    <strong>Certifying Staff</strong>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <strong>Name</strong>
+                                </td>
+                                <td>
+                                    <t t-if="docs and docs.issued_by_id">
+                                        <span t-field="docs.issued_by_id"/>
+                                    </t>
+                                </td>
+                                <td>
+                                    <strong>Name</strong>
+                                </td>
+                                <td>
+                                    <t t-if="docs and docs.accepted_by_id">
+                                        <span t-field="docs.accepted_by_id"/>
+                                    </t>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <strong>Signature</strong>
+                                </td>
+                                <td style="text-align: center;">
+                                    <t>
+                                        <img t-if="doc.issued_by_signature"
+                                             t-att-src="'data:image/png;base64,%s' % doc.issued_by_signature.decode('utf-8')"
+                                             width="200"/>
+                                        <span style="font-size:8px; display:block; margin-top:1px;">
+                                            <t t-esc="doc.doc_issued_by_date"/>
+                                        </span>
+                                    </t>
+                                </td>
+                                <td>
+                                    <strong>Signature</strong>
+                                </td>
+                                <td style="text-align: center;">
+                                    <t>
+                                        <img t-if="doc.accepted_by_signature"
+                                             t-att-src="'data:image/png;base64,%s' % doc.accepted_by_signature.decode('utf-8')"
+                                             width="200"/>
+                                        <span style="font-size:8px; display:block; margin-top:1px;">
+                                            <t t-esc="doc.doc_accepted_by_date"/>
+                                        </span>
+                                    </t>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table class="table table-bordered" style="border:1px solid black;">
+                        <thead>
+                            <tr>
+                                <th>S/N</th>
+                                <th>TASK TO BE DONE</th>
+                                <th>ACTION TAKEN</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <t t-if="docs and docs.line_ids">
+                                <t t-foreach="docs.line_ids" t-as="line" t-index="idx">
+                                    <tr>
+                                        <td>
+                                            <span t-field="line.sn"/>
+                                        </td>
+                                        <td>
+                                            <span t-field="line.task_to_be_done"/>
+                                        </td>
+                                        <td>
+                                            <span t-field="line.action_taken"/>
+                                        </td>
+                                    </tr>
+                                </t>
+                            </t>
+                        </tbody>
+                    </table>
+
+                    <table class="table table-bordered" style="border:1px solid black;">
+                        <tbody>
+                            <tr>
+                                <th>
+                                    <strong>Job Allocation S/N</strong>
+                                </th>
+                                <td>
+                                    <t t-if="docs and docs.job_allocation_serial_no">
+                                        <span t-field="docs.job_allocation_serial_no"/>
+                                    </t>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th style="width: 25%">
+                                    <strong>Requisition Slip S/N</strong>
+                                </th>
+                                <td style="width: 75%">
+                                    <t t-if="docs and docs.requisition_slip_serial_no">
+                                        <span t-field="docs.requisition_slip_serial_no"/>
+                                    </t>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <table class="table table-bordered" style="border:1px solid black;">
+                        <tbody>
+                            <tr>
+                                <th colspan="4" style="text-align: left;">
+                                    This is certified that the task specified above has been carried out and meet the
+                                    requirement of DGCA and is ready for Release to Service / CA Form 1 i.a.w. CAR
+                                    145A.50
+                                </th>
+                            </tr>
+                            <tr>
+                                <th colspan="2" style="text-align: left;">
+                                    Work Completed By
+                                </th>
+                                <th colspan="2" style="text-align: left;">
+                                    All the Documentation Has Been Checked and Verified.
+                                </th>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <strong>Auth. Person Name</strong>
+                                </td>
+                                <td style="width: 30%">
+                                    <t t-if="docs and docs.auth_person_name">
+                                        <span t-field="docs.auth_person_name"/>
+                                    </t>
+                                </td>
+                                <th class="text-center" rowspan="2" style="padding: 2px; margin: 0;">Workshop
+                                    Manager/<br></br>Deputy Workshop Manager/
+                                    <br/>
+                                    Date/ Sign.
+                                </th>
+                                <th class="text-center" rowspan="2" style="padding: 2px; margin: 0;">Quality Manager
+                                    <br/>
+                                    Dated Sign.
+                                </th>
+                            </tr>
+                            <tr>
+                                <td style="padding: 0.5px; margin: 0;">
+                                    <strong>Auth. No./ Stamp</strong>
+                                </td>
+                                <td style="padding: 0.5px; margin: 0;">
+                                    <img t-if="doc.auth_number"
+                                         t-att-src="'data:image/png;base64,%s' % doc.auth_number.decode('utf-8')"
+                                         style="width: 80px; height: auto; display: block; margin: 0; padding: 0;"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 0.5px; margin: 0;">
+                                    <strong>Dated Sign.</strong>
+                                </td>
+                                <td style="padding: 0.5px; margin: 0;">
+                                    <t t-if="doc.auth_date_sign">
+                                       <t t-esc="doc.auth_date_sign.strftime('%d-%m-%Y')"/>
+                                    </t>
+                                </td>
+                                <td style="text-align: center;">
+                                     <img t-if="doc.workshop_signature"
+                                             t-att-src="'data:image/png;base64,%s' % doc.workshop_signature.decode('utf-8')"
+                                             width="200"/>
+                                    <span style="font-size:12px; display:block; margin-top:1px;">
+                                        <t t-if="doc.doc_workshop_date">
+                                          <t t-esc="doc.doc_workshop_date.strftime('%d-%m-%Y')"/>
+                                        </t>
+                                      </span>
+                                </td>
+                                <td style="text-align: center;">
+                                    <img t-if="doc.quality_signature"
+                                             t-att-src="'data:image/png;base64,%s' % doc.quality_signature.decode('utf-8')"
+                                             width="200"/>
+                                    <span style="font-size:8px; display:block; margin-top:1px;">
+                                        <t t-if="doc.quality_date">
+                                        <t t-esc="doc.quality_date.strftime('%d-%m-%Y')"/>
+                                        </t>
+                                    </span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <div class="row mt-5">
+                        <div class="col-12 text-right">
+                            <strong>Issue 01, Rev 04 Dated: JULY-2023</strong>
+                        </div>
+                    </div>
+                </div>
+            </t>
+        </t>
+    </template>
+
+
+
+
+    <template id="report_job_allocation_template">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <div class="page">
+
+                    <table class="table table-bordered" style="border:1px solid black;">
+                        <tbody>
+                            <tr>
+                               <td style="text-align: center; width: 30%; padding: 5px; border-right: 1px solid black; vertical-align: top;">
+                                <img t-if="doc.company_id.logo"
+                                     t-att-src="'data:image/png;base64,%s' % doc.company_id.logo.decode('utf-8')"
+                                     style="padding-top:25px;width: 100%; height: auto; max-height: 65px; object-fit: contain;margin-top:-25px;margin-bottom:-37px;"/>
+                            </td>
+
+                                <td colspan="3" style="width: 70%; text-align: center; padding: 5px; font-size: 25px; font-weight: bold; vertical-align: middle; color: blue;">
+                                    <span t-field="doc.company_id.name"/>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+
+                    <table class="table table-sm mb-2" style="width: 100%;">
+                        <tr>
+                            <td style="width: 50%; padding: 5px;">
+                                <strong>S. No.:
+                                    <span t-field="doc.serial_no"/>
+                                </strong>
+                            </td>
+                            <td style="width: 50%; padding: 5px;text-align: right">
+                                <strong>(JSS/FR/017)</strong>
+                            </td>
+                        </tr>
+                    </table>
+                    <table class="table mb-2" style="width: 100%; border: 1px solid black;">
+                        <tr>
+                            <td style="text-align: center; font-size: 20px; font-weight: bold;">
+                                <span t-field="doc.company_id.name"/>
+                            </td>
+                        </tr>
+                    </table>
+                    <table class="table mb-2" style="width: 100%; border: 1px solid black;">
+                        <tr>
+                            <td style="text-align: center; font-size: 20px; font-weight: bold;">
+                                Job Allocation Form
+                            </td>
+                        </tr>
+                    </table>
+                    <div style="height: 20px;"></div>
+
+                    <table class="table table-sm mb-2"
+                           style="width: 100%; border: 1px solid black; border-collapse: collapse;">
+                        <tr>
+                            <td style="width: 50%; padding: 5px; border-right: 1px solid black;">
+                                <strong>W/O No.:
+                                    <span t-field="doc.workorder_no"/>
+                                </strong>
+                            </td>
+
+                            <td style="width: 15%; text-align: center; padding: 5px; font-size: 17px; font-weight: bold; border-right: 1px solid black;">
+                                <strong>Date</strong>
+                            </td>
+
+                            <td style="width: 35%; text-align: center; padding: 5px; font-size: 17px; font-weight: bold;">
+                                <t t-if="doc.doc_date">
+                                    <span t-esc="doc.doc_date.strftime('%d-%m-%Y')"/>
+                                </t>
+                            </td>
+                        </tr>
+                    </table>
+
+                    <table style="width: 100%; border-collapse: collapse; border: 1px solid black;"
+                           class="table table-bordered">
+                        <tr>
+                            <th style="width: 10%; border: 1px solid black; text-align: center;">S/N</th>
+                            <th style="width: 40%; border: 1px solid black; text-align: center;">NAME OF PERSON</th>
+                            <th style="width: 15%; border: 1px solid black; text-align: center;">DESIGNATION</th>
+                            <th style="width: 17%; border: 1px solid black; text-align: center;">SIGNATURE</th>
+                            <th style="width: 18%; border: 1px solid black; text-align: center;">REMARKS</th>
+                        </tr>
+
+                        <tr t-foreach="doc.line_ids" t-as="line">
+                            <td style="width: 10%; border: 1px solid black; text-align: center;">
+                                <span t-field="line.sn"/>
+                            </td>
+                            <td style="width: 40%; border: 1px solid black; text-align: center;">
+                                <span t-field="line.person_name"/>
+                            </td>
+                            <td style="width: 15%; border: 1px solid black; text-align: center;">
+                                <span t-field="line.designation"/>
+                            </td>
+                            <td style="width: 17%; border: 1px solid black; text-align: center;">
+                                <img t-if="line.signature"
+                                     t-att-src="'data:image/png;base64,%s' % line.signature.decode('utf-8')"
+                                     width="100"/>
+                            </td>
+                            <td style="width: 18%; border: 1px solid black; text-align: center;">
+                                <span t-field="line.remarks"/>
+                            </td>
+                        </tr>
+
+                    </table>
+                    <div style="height: 20px;"></div>
+
+                    <table class="table table-sm mb-2"
+                           style="width: 100%; border: 1px solid black; border-collapse: collapse;">
+                        <tr>
+                            <td style="width: 50%; text-align: left; padding: 5px; border-right: 1px solid black;">
+                                <strong>Job Allocation Done By</strong>
+                            </td>
+                            <t t-if="doc.role_field == 'certifying_staff'">
+                                <td style="width: 50%; text-align: left; padding: 5px;">
+                                    <strong>
+<!--                                        <span style="text-decoration: line-through;">Workshop Manager</span> / Certifying Staff-->
+                                        <span>Workshop Manager</span> / Certifying Staff
+                                    </strong>
+                                </td>
+                            </t>
+                            <t t-else="">
+                                <td style="width: 50%; text-align: left; padding: 5px;">
+                                    <strong>
+<!--                                        <span style="text-decoration: line-through;">Certifying Staff</span> / Workshop Manager-->
+                                        <span>Certifying Staff</span> / Workshop Manager
+                                    </strong>
+
+                                </td>
+                            </t>
+                        </tr>
+                    </table>
+
+                    <table class="table table-sm mb-2"
+                           style="width: 100%; border: 1px solid black; border-collapse: collapse;">
+                        <tr>
+                            <td style="width: 50%; text-align: left; padding: 5px; border-right: 1px solid black;">
+                                <strong>Name of Person</strong>
+                            </td>
+                            <td style="width: 50%; text-align: left; padding: 5px;">
+                                <span t-field="doc.certified_name"/>
+                            </td>
+                        </tr>
+                    </table>
+                    <table class="table table-sm mb-2"
+                           style="width: 100%; border: 1px solid black; border-collapse: collapse;">
+                        <tr>
+                            <td style="width: 50%; text-align: left; padding: 5px; border-right: 1px solid black;">
+                                <strong>Signature</strong>
+                            </td>
+                            <td style="text-align: center;">
+                                <img t-if="doc.certified_signature"
+                                     t-att-src="'data:image/png;base64,%s' % doc.certified_signature.decode('utf-8')"
+                                     width="200"/>
+                                <span style="font-size:12px; display:block; margin-top:1px;">
+                                    <t t-if="doc.date_sign">
+                                        <t t-esc="doc.date_sign.strftime('%d-%m-%Y')"/>
+                                    </t>
+                                </span>
+                            </td>
+                        </tr>
+                    </table>
+                    <div style="text-align: left; margin-top: 20px; font-weight: bold;">
+                        <strong>Issue: 01, Rev:-04, Dated: JULY-2023</strong>
+                    </div>
+
+                </div>
+            </t>
+        </t>
+    </template>
+
+
+
+<!--    delivery challan report here-->
+
+    <template id="report_delivery_challan_template">
+        <t t-call="web.basic_layout">
+            <div class="page">
+                <t t-foreach="docs" t-as="doc">
+                    <table class="table table-bordered" style="border:1px solid black;">
+                        <tbody>
+                            <tr>
+                               <td style="text-align: center; width: 30%; padding: 5px; border-right: 1px solid black; vertical-align: top;">
+                                <img t-if="doc.company_id.logo"
+                                     t-att-src="'data:image/png;base64,%s' % doc.company_id.logo.decode('utf-8')"
+                                     style="padding-top:25px;width: 100%; height: auto; max-height: 120px; object-fit: contain;margin-top:-5px;margin-bottom:-37px;"/>
+                                    </td>
+
+                            <td style="width:75%; text-align:center;">
+                            <h5 style="margin:2px;"><t t-esc="doc.company_id.name"/></h5>
+                            <p style="margin: 0;"><span t-field="doc.street"/>,<span t-field="doc.street2"/></p>
+                            <p style="margin: 0;"><span t-field="doc.city"/>,<span t-field="doc.state_id.name"/> - <span t-field="doc.zip"/></p>
+                            <p style="margin:2px;">Phone No: +911 204909825, Mobile No: +91 9873980440</p>
+                            <p style="margin:2px;">Website: www.jssaviation.com | Email: info@jssaviation.com</p>
+                            <strong>GSTIN : 09AACCS2931D1ZQ</strong>
+                          </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+
+                    <p style="text-align: center; font-size: 16px;">
+                        <u>DELIVERY CHALLAN</u>
+                    </p>
+
+                    <table class="table table-sm mb-2" style="width: 100%; border:1px solid black;">
+                        <tr>
+                            <td>
+                                <strong>CHALLAN NO:</strong>
+                                <span t-esc="doc.challan_no"/>
+                            </td>
+                            <td>
+                                <strong>Date:</strong>
+                                <t t-if="doc.doc_date">
+                                    <span t-esc="doc.doc_date.strftime('%d-%m-%Y')"/>
+                                </t>
+                            </td>
+                        </tr>
+                    </table>
+
+                    <table class="table table-sm mb-2" style="width: 100%; border: 1px solid black;">
+                        <tr>
+                            <td style="width: 50%; padding: 5px;">
+                                <strong>
+                                    <span t-field="doc.company_id.name"/>
+                                </strong>
+                                    <p style="margin: 0;">
+                                        <span t-field="doc.street"/>
+                                        <t t-if="doc.street2"> <span t-field="doc.city"/></t>
+                                    </p>
+                                    <p style="margin: 0;">
+                                        <span t-field="doc.state_id.name"/> - <span t-field="doc.zip"/>
+                                    </p>
+                                <br/>
+                                WhatsApp: +91 8017752717
+                                <br/>
+                                Ph.: +91 120 3531118
+                                <br/>
+                                Email: engineering@jssaviation.com
+                                <br/>
+                                Web: www.jssaviation.com
+                            </td>
+                            <td style="width: 50%; padding: 5px;">
+                                <strong>Customer Name:</strong>
+                                <span t-esc="doc.partner_id.name"/>
+                                <br/>
+                                <strong>Contact Person:</strong>
+                                <span t-esc="doc.saleperson_id.user"/>
+                                <br/>
+                                <strong>Contact Number:</strong>
+                                <span t-esc="doc.contact_number"/>
+                                <br/>
+                                <strong>PO/SO/RO No.:</strong>
+                                <span t-esc="doc.po_so_ro_no"/>
+                                <br/>
+                                <strong>Date:</strong>
+                                <t t-if="doc.doc_po_so_ro_date">
+                                    <span t-esc="doc.doc_po_so_ro_date.strftime('%d-%m-%Y')"/>
+                                </t>
+                            </td>
+                        </tr>
+                    </table>
+
+                    <table class="table table-sm mb-2" style="width: 100%; border: none; margin-bottom: 10px;">
+                        <tr>
+                            <td style="padding: 8px 0; font-weight: bold;">
+                                GSTIN:
+                                <t t-esc="doc.gst"/>
+                            </td>
+                        </tr>
+                    </table>
+
+                    <table class="table table-bordered table-sm" style="width: 100%; border: 1px solid black;">
+                        <thead>
+                            <tr>
+                                <th style="width: 5%;">S.No</th>
+                                <th style="width: 20%;">Description</th>
+                                <th style="width: 20%;">Part No.</th>
+                                <th style="width: 10%;">Batch No.</th>
+                                <th style="width: 10%;">Lot No.</th>
+                                <th style="width: 15%;">Qty</th>
+                                <th style="width: 60%;">Remarks</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <t t-set="counter" t-value="1"/>
+                            <t t-foreach="doc.line_ids" t-as="line">
+                                <tr>
+                                    <td>
+                                        <span t-esc="counter"/>
+                                    </td>
+                                    <td>
+                                        <span t-esc="line.description"/>
+                                    </td>
+                                    <td>
+                                        <span t-esc="line.part_no"/>
+                                    </td>
+                                    <td>
+                                        <span t-esc="line.batch_no"/>
+                                    </td>
+                                    <td>
+                                        <span t-esc="line.lot_no"/>
+                                    </td>
+                                    <td>
+                                        <span t-esc="line.qty"/>
+                                    </td>
+                                     <td>
+                                        <span t-esc="line.remarks"/>
+                                    </td>
+                                </tr>
+                                <t t-set="counter" t-value="counter + 1"/>
+                            </t>
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td colspan="3" class="text-right">
+                                    <strong>Total Qty:</strong>
+                                </td>
+                                <td></td>
+                                <td></td>
+                                <td>
+                                    <strong>
+                                        <span t-esc="sum(line.qty for line in doc.line_ids)"/>
+                                    </strong>
+                                </td>
+                                 <td></td>
+                            </tr>
+                        </tfoot>
+                    </table>
+
+                    <br/>
+                    <p>Kind Regards,
+                        <br/>
+                        For
+                        <strong>
+                                <span t-field="doc.company_id.name"/>
+
+                        </strong>
+                    </p>
+
+                    <br/>
+                    <br/>
+                    <div style="width: 100%; margin-top: 30px;">
+                        <div style="width: 48%; display: inline-block; vertical-align: top;">
+                            <strong>Authorized Signatory:</strong>
+                            <td style="width: 100%; text-align: left; padding: 5px;">
+                                <div style="font-size: 16px; margin-top: 5px;">
+                                    <t t-esc="doc.created_by.name"/>
+                                </div>
+                                <img t-if="doc.created_by and doc.auth_stamp"
+                                     t-att-src="'data:image/png;base64,%s' % doc.auth_stamp.decode('utf-8')"
+                                     width="100"/>
+                                <div style="font-size: 16px; margin-top: 5px;">
+                                    <t t-if="doc.doc_auth_signature_date">
+                                        <t t-esc="doc.doc_auth_signature_date.strftime('%d-%m-%Y')"/>
+                                    </t>
+
+                                </div>
+                            </td>
+                        </div>
+                        <div style="width: 48%; display: inline-block; vertical-align: top; text-align: right;">
+                            <strong>Received By:</strong>
+                            <span style="display: inline-block; width: 150px; border-bottom: 1px solid #000;"></span>
+                            <br/>
+                            <br/>
+                            <strong>Date:</strong>
+                            <span style="display: inline-block; width: 150px; border-bottom: 1px solid #000;"></span>
+                            <br/>
+                            <br/>
+                            <strong>Stamp:</strong>
+                            <span style="display: inline-block; width: 150px; border-bottom: 1px solid #000;"></span>
+                        </div>
+                    </div>
+                </t>
+            </div>
+        </t>
+    </template>
+
+
+
+
+
+</odoo>

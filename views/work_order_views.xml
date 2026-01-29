@@ -1,0 +1,330 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_aircraft_component_workorder_form" model="ir.ui.view">
+        <field name="name">aircraft.component.workorder.form</field>
+        <field name="model">aircraft.component.workorder</field>
+        <field name="arch" type="xml">
+            <form string="Aircraft Component Work Order">
+                <header>
+                    <header>
+                        <button name="action_grant_edit_permission" type="object" string="Grant Edit" class="btn-primary"
+                            groups="jss_code.group_engineer" invisible="not can_show_grant_edit"/>
+                        <button name="action_grant_download_permission" type="object" string="Grant Download" class="btn-success"
+                                groups="jss_code.group_engineer" invisible="not can_show_grant_download"/>
+
+                        <button name="action_request_edit" type="object" string="Request Edit"
+                                invisible="not can_show_request_edit"
+                                groups="jss_code.group_operations,jss_code.group_quality,jss_code.group_deputy_quality_manager,jss_code.group_workshop_manager,jss_code.group_certifying_staff"/>
+                        <button name="action_request_download" type="object" string="Request Download"
+                                invisible="not can_show_request_download"
+                                groups="jss_code.group_operations,jss_code.group_quality,jss_code.group_deputy_quality_manager,jss_code.group_workshop_manager,jss_code.group_certifying_staff,jss_code.group_store"/>
+                        <button name="action_generate_pdf"
+                            type="object"
+                            string="Download PDF"
+                            class="btn-primary"
+                            icon="fa-download"
+                            invisible="not can_download_pdf"/>
+                    </header>
+
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="has_edit_request" invisible="1"/>
+                            <field name="has_download_request" invisible="1"/>
+                            <field name="is_engineer" invisible="1"/>
+                            <field name="can_show_grant_edit" invisible="1"/>
+                            <field name="can_show_grant_download" invisible="1"/>
+                            <field name="can_show_request_edit" invisible="1"/>
+                            <field name="can_show_request_download" invisible="1"/>
+                            <field name="can_download_pdf" invisible="1"/>
+                            <field name="can_edit_auth_signature" invisible="1"/>
+                            <field name="can_edit_quality_signature" invisible="1"/>
+                            <field name="can_edit_workshop_signature" invisible="1"/>
+                            <field name="can_edit_issued_by_signature" invisible="1"/>
+                            <field name="can_edit_accepted_by_signature" invisible="1"/>
+                            <field name="operator_name_id"/>
+                            <field name="aircraft_type_id"/>
+                            <field name="operator_work_order_no"/>
+                            <field name="operator_issue_date"/>
+                            <field name="amo_work_order_no"/>
+                            <field name="amo_issue_date"/>
+                            <field name="workshop_manager"/>
+                            <field name="workshop_date"/>
+                            <field name="workshop_signature" widget="signature" style="width: 250px; height: 100px;" readonly="not can_edit_workshop_signature"/>
+                            <field name="quality_manager"/>
+                            <field name="quality_date"/>
+                            <field name="quality_signature" widget="signature" style="width: 250px; height: 100px;" readonly="not can_edit_quality_signature"/>
+                        </group>
+                        <group>
+                            <field name="issued_by_id"/>
+                            <field name="issued_by_signature" widget="signature" style="width: 250px; height: 100px;" readonly="not can_edit_issued_by_signature"/>
+                            <field name="accepted_by_id"/>
+                            <field name="accepted_by_signature" widget="signature" style="width: 250px; height: 100px;" readonly="not can_edit_accepted_by_signature"/>
+                            <field name="job_allocation_serial_no"/>
+                            <field name="requisition_slip_serial_no"/>
+                            <field name="auth_number" widget="signature" style="width: 250px; height: 100px;" readonly="not can_edit_auth_signature"/>
+                            <field name="auth_date_sign"/>
+                            <field name="auth_person_name"/>
+                        </group>
+                    </group>
+                    <group>
+                        <field name="remarks"/>
+                    </group>
+                    <notebook>
+                        <page string="Task Details">
+                            <field name="line_ids">
+                                <tree editable="bottom">
+                                    <field name="sn"/>
+                                    <field name="task_to_be_done"/>
+                                    <field name="action_taken"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter" groups="jss_code.group_super_user">
+                    <field name="message_follower_ids" widget="mail_followers"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                    <field name="activity_ids" widget="activity"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_aircraft_component_workorder_tree" model="ir.ui.view">
+        <field name="name">aircraft.component.workorder.tree</field>
+        <field name="model">aircraft.component.workorder</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="operator_name_id"/>
+                <field name="aircraft_type_id"/>
+                <field name="amo_work_order_no"/>
+                <field name="operator_work_order_no"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="action_aircraft_component_workorder" model="ir.actions.act_window">
+        <field name="name">Aircraft Component Work Orders</field>
+        <field name="res_model">aircraft.component.workorder</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="menu_aircraft_component_workorder_action" name="Aircraft Component Work Orders"
+              parent="menu_workshop_root"
+              action="action_aircraft_component_workorder" sequence="1"/>
+
+    <record id="view_job_allocation_tree" model="ir.ui.view">
+        <field name="name">job.allocation.tree</field>
+        <field name="model">job.allocation.form</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="workorder_no"/>
+                <field name="date"/>
+                <field name="certified_name"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_job_allocation_form" model="ir.ui.view">
+        <field name="name">job.allocation.form</field>
+        <field name="model">job.allocation.form</field>
+        <field name="arch" type="xml">
+            <form string="Job Allocation Form">
+                <header>
+                    <header>
+                        <button name="action_grant_edit_permission" type="object" string="Grant Edit" class="btn-primary"
+                            groups="jss_code.group_engineer" invisible="not can_show_grant_edit"/>
+                        <button name="action_grant_download_permission" type="object" string="Grant Download" class="btn-success"
+                                groups="jss_code.group_engineer" invisible="not can_show_grant_download"/>
+
+                        <button name="action_request_edit" type="object" string="Request Edit"
+                                invisible="not can_show_request_edit"
+                                groups="jss_code.group_operations,jss_code.group_workshop_manager,jss_code.group_certifying_staff"/>
+                        <button name="action_request_download" type="object" string="Request Download"
+                                invisible="not can_show_request_download"
+                                groups="jss_code.group_operations,jss_code.group_workshop_manager,jss_code.group_certifying_staff,jss_code.group_store"/>
+                        <button name="action_generate_pdf"
+                            type="object"
+                            string="Download PDF"
+                            class="btn-primary"
+                            icon="fa-download"
+                            invisible="not can_download_pdf"/>
+                    </header>
+                </header>
+                <sheet>
+                    <group>
+                        <field name="has_edit_request" invisible="1"/>
+                        <field name="has_download_request" invisible="1"/>
+                        <field name="is_engineer" invisible="1"/>
+                        <field name="can_show_grant_edit" invisible="1"/>
+                        <field name="can_show_grant_download" invisible="1"/>
+                        <field name="can_show_request_edit" invisible="1"/>
+                        <field name="can_show_request_download" invisible="1"/>
+                        <field name="can_download_pdf" invisible="1"/>
+                        <field name="can_edit_signature" invisible="1"/>
+                        <field name="serial_no"/>
+                        <field name="workorder_no"/>
+                        <field name="date"/>
+                    </group>
+                    <group>
+                        <field name="certified_name"/>
+                        <field name="certified_signature" widget="signature" style="width: 250px; height: 100px;" readonly="not can_edit_signature"/>
+                        <field name="date_sign"/>
+                        <field name="role_field" invisible="1"/>
+                    </group>
+                    <notebook>
+                        <page string="Allocation Lines">
+                            <field name="line_ids">
+                                <tree editable="bottom">
+                                    <field name="sn"/>
+                                    <field name="person_name"/>
+                                    <field name="designation"/>
+                                    <field name="signature"/>
+                                    <field name="remarks"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter" groups="jss_code.group_super_user">
+                    <field name="message_follower_ids" widget="mail_followers"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                    <field name="activity_ids" widget="activity"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_job_allocation_form" model="ir.actions.act_window">
+        <field name="name">Job Allocation Forms</field>
+        <field name="res_model">job.allocation.form</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="menu_job_allocation_form"
+              name="Job Allocation Form"
+              parent="menu_workshop_root"
+              action="action_job_allocation_form" sequence="3"/>
+
+    <record id="view_delivery_challan_form" model="ir.ui.view">
+        <field name="name">delivery.challan.form</field>
+        <field name="model">delivery.challan</field>
+        <field name="arch" type="xml">
+            <form string="Delivery Challan">
+                <header>
+                    <header>
+                        <button name="action_grant_edit_permission" type="object" string="Grant Edit" class="btn-primary"
+                            groups="jss_code.group_engineer,jss_code.group_super_user" invisible="not can_show_grant_edit"/>
+                        <button name="action_grant_download_permission" type="object" string="Grant Download" class="btn-success"
+                                groups="jss_code.group_engineer,jss_code.group_super_user" invisible="not can_show_grant_download"/>
+
+                        <button name="action_request_edit" type="object" string="Request Edit"
+                                invisible="not can_show_request_edit"
+                                groups="jss_code.group_dispatcher"/>
+                        <button name="action_request_download" type="object" string="Request Download"
+                                invisible="not can_show_request_download"
+                                groups="jss_code.group_dispatcher"/>
+                        <button name="action_generate_pdf"
+                            type="object"
+                            string="Download PDF"
+                            class="btn-primary"
+                            icon="fa-download"
+                            invisible="not can_download_pdf"/>
+                    </header>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="has_edit_request" invisible="1"/>
+                            <field name="has_download_request" invisible="1"/>
+                            <field name="is_engineer" invisible="1"/>
+                            <field name="can_show_grant_edit" invisible="1"/>
+                            <field name="can_show_grant_download" invisible="1"/>
+                            <field name="can_show_request_edit" invisible="1"/>
+                            <field name="can_show_request_download" invisible="1"/>
+                            <field name="can_download_pdf" invisible="1"/>
+                            <field name="challan_no" readonly="1"/>
+                            <field name="date"/>
+                            <field name="partner_id"/>
+                            <field name="saleperson_id"/>
+                            <field name="contact_number"/>
+                            <field name="po_so_ro_no"/>
+                            <field name="po_so_ro_date"/>
+                        </group>
+                        <group>
+                            <field name="gst"/>
+                            <field name="created_by" readonly="1"/>
+                            <field name="can_edit_auth_by_signature" invisible="1"/>
+                            <field name="auth_stamp" widget="signature" style="width: 250px; height: 100px;" readonly="not can_edit_auth_by_signature"/>
+                            <field name="auth_signature_date"/>
+                            <field name="recieving"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Line Items">
+                            <field name="line_ids">
+                                <tree editable="bottom">
+                                    <field name="sn"/>
+                                    <field name="description"/>
+                                    <field name="part_no"/>
+                                    <field name="batch_no"/>
+                                    <field name="lot_no"/>
+                                    <field name="qty"/>
+                                    <field name="remarks"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Company">
+                            <group>
+                                <group>
+                                    <label for="street" string="Address"/>
+                                        <div class="o_address_format">
+                                            <field name="street" placeholder="Street..." class="o_address_street"/>
+                                            <field name="street2" placeholder="Street 2..." class="o_address_street"/>
+                                            <field name="city" placeholder="City" class="o_address_city"/>
+                                            <field name="state_id" class="o_address_state" placeholder="State" options="{&quot;no_open&quot;: True}"/>
+                                            <field name="zip" placeholder="ZIP" class="o_address_zip"/>
+                                            <field name="country_id" placeholder="Country" class="o_address_country" options="{&quot;no_open&quot;: True, &quot;no_create&quot;: True}"/>
+                                        </div>
+                                    </group>
+                                <group></group>
+                                </group>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter" groups="jss_code.group_super_user">
+                    <field name="message_follower_ids" widget="mail_followers"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                    <field name="activity_ids" widget="activity"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_delivery_challan_tree" model="ir.ui.view">
+        <field name="name">delivery.challan.tree</field>
+        <field name="model">delivery.challan</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="challan_no"/>
+                <field name="date"/>
+                <field name="partner_id"/>
+                <field name="saleperson_id"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="action_delivery_challan" model="ir.actions.act_window">
+        <field name="name">Delivery Challan</field>
+        <field name="res_model">delivery.challan</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="menu_delivery_challan"
+              name="Delivery Challan"
+              parent="menu_workshop_root"
+              action="action_delivery_challan"
+              sequence="5"/>
+</odoo>

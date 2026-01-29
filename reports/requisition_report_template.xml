@@ -1,0 +1,209 @@
+<odoo>
+    <template id="report_requisition_slip_template">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <div class="page">
+<!--                    <table class="table table-sm mb-2" style="width: 100%; border: 1px solid black; border-collapse: collapse;">-->
+<!--                        <tr>-->
+<!--                            <td style="width: 30%; padding: 5px; border-right: 1px solid black; vertical-align: top;">-->
+<!--                                <img t-if="doc.company_id.logo"-->
+<!--                                     t-att-src="'data:image/png;base64,%s' % doc.company_id.logo.decode('utf-8')"-->
+<!--                                     style="max-width: 300px; max-height: 150px;"/>-->
+<!--                            </td>-->
+
+<!--                            <td style="width: 70%; text-align: center; padding: 5px; font-size: 25px; font-weight: bold; vertical-align: middle; color: blue;">-->
+<!--                                <strong>JSS AVIATION-->
+<!--                                    <br/>ENGINEERING &amp; MAINTENANCE PVT. LTD.</strong>-->
+<!--                            </td>-->
+<!--                        </tr>-->
+<!--                    </table>-->
+
+<!--                    <table class="table table-bordered" style="border:1px solid black;">-->
+<!--                        <tbody>-->
+<!--                            <tr>-->
+<!--                               <td style="text-align: center; width: 30%; padding: 5px; border-right: 1px solid black; vertical-align: top;">-->
+<!--                                <img t-if="doc.company_id.logo"-->
+<!--                                     t-att-src="'data:image/png;base64,%s' % doc.company_id.logo.decode('utf-8')"-->
+<!--                                     style="padding-top:25px;width: 100%; height: auto; max-height: 65px; object-fit: contain;margin-top:-25px;margin-bottom:-37px;"/>-->
+<!--                            </td>-->
+
+<!--                                <td colspan="3" style="width: 70%; text-align: center; padding: 5px; font-size: 25px; font-weight: bold; vertical-align: middle; color: blue;">-->
+<!--&lt;!&ndash;                                    <strong>JSS AVIATION ENGINEERING &amp; MAINTENANCE</strong>&ndash;&gt;-->
+<!--&lt;!&ndash;                                    <strong>PRIVATE LIMITED</strong>&ndash;&gt;-->
+<!--                                    <span t-field="doc.company_id.name"/>-->
+<!--                                </td>-->
+<!--                            </tr>-->
+<!--                        </tbody>-->
+<!--                    </table>-->
+                    <table class="table table-bordered"
+                           style="border-bottom:1px solid black;border-top:1px solid black;border-right:1px solid black;border-left:1px solid black;">
+                        <tbody>
+                            <tr>
+                               <td style="text-align: center; width: 30%; padding: 5px; border-right: 1px solid black; vertical-align: top;">
+                                <img t-if="doc.company_id.logo"
+                                     t-att-src="'data:image/png;base64,%s' % doc.company_id.logo.decode('utf-8')"
+                                     style="width: 100%; height: auto; max-height: 130px; object-fit: contain;"/>
+                                </td>
+
+                                <td colspan="3" style="width: 70%; text-align: center; padding: 5px; font-size: 25px; font-weight: bold; vertical-align: middle; color: blue;">
+<!--                                    <p style="font-size: 12px; text-decoration: underline;font-weight: bold;margin-bottom:-2px;">Serviceable Items</p>-->
+                                    <strong>JSS AVIATION ENGINEERING AND MAINTENANCE PVT. LTD.</strong>
+<!--                                    <p style="font-size: 16px;font-weight: bold;margin-bottom:-2px;"><t t-esc="doc.company_id.name"/></p>-->
+<!--                                    <p style="font-size: 12px;margin-bottom:-2px;"><t t-esc="doc.street"/></p>-->
+<!--                                    <p style="font-size: 12px;margin-bottom:-2px;"><t t-esc="doc.street2"/>  <t t-esc="doc.city"/>  <t t-esc="doc.state_id.name"/> <t t-esc="doc.country_id.name"/>   <t t-esc="doc.zip"/></p>-->
+<!--                                    <span>Phone No: +911 204909825  </span>, <span>Mobile No: +91 9873980440</span><br/>-->
+<!--                                    <span>Website: www.jssaviation.com</span>,-->
+<!--                                    <span>Email: info@jssaviation.com</span>-->
+<!--                                  <p style="font-size: 12px;font-weight: bold;margin-bottom:-2px;">GSTIN : 09AACCS2931D1ZQ</p>-->
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <table class="table table-sm mb-2" style="width: 100%;">
+                        <tr>
+                            <td style="width: 50%; padding: 5px;">
+                                <strong>S. No.: <span t-field="doc.serial_no"/></strong>
+                            </td>
+                            <td style="width: 50%; padding: 5px;text-align: right">
+                                <strong>(JSS/FR/016)</strong>
+                            </td>
+                        </tr>
+                    </table>
+                    <table class="table mb-2" style="width: 100%; border: 1px solid black;">
+                        <tr>
+                            <td style="text-align: center; font-size: 20px; font-weight: bold;">
+                               JSS AVIATION ENGINEERING AND MAINTENANCE PVT. LTD.
+                            </td>
+                        </tr>
+                    </table>
+                    <table class="table mb-2" style="width: 100%; border: 1px solid black;">
+                        <tr>
+                            <td style="text-align: center; font-size: 20px; font-weight: bold;">
+                                Requisition Slip
+                            </td>
+                        </tr>
+                    </table>
+                                        <div style="height: 20px;"> </div>
+
+                    <table class="table table-sm mb-2"
+                           style="width: 100%; border: 1px solid black; border-collapse: collapse;border-bottom:none;">
+                        <tr>
+                            <td style="width: 50%; padding: 5px; border-right: 1px solid black;">
+                                <strong>W/O No.  <span t-field="doc.workorder_id"/></strong>
+                            </td>
+
+                            <td style="width: 15%; text-align: center; padding: 5px; font-size: 17px; font-weight: bold; border-right: 1px solid black;">
+                                <strong>Date: </strong>
+                            </td>
+
+                            <td style="width: 35%; text-align: center; padding: 5px; font-size: 17px; font-weight: bold;">
+                               <span t-esc="doc.doc_date.strftime('%d/%m/%Y')"/>
+                            </td>
+                        </tr>
+                    </table>
+
+                    <table style="width: 100%; border-collapse: collapse; border: 1px solid black;" class="table table-bordered">
+                        <tr>
+                            <th style="width: 5%; border: 1px solid black; text-align: center;">S.No</th>
+                            <th style="width: 18%; border: 1px solid black; text-align: center;">MATERIAL / CONSUMABLES</th>
+                            <th style="width: 18%; border: 1px solid black; text-align: center;">Part No.</th>
+                            <th style="width: 8%; border: 1px solid black; text-align: center;">Batch No.</th>
+                            <th style="width: 8%; border: 1px solid black; text-align: center;">Lot No.</th>
+                            <th style="width: 12%; border: 1px solid black; text-align: center;">QTY</th>
+                            <th style="width: 25%; border: 1px solid black; text-align: center;">REMARKS</th>
+                        </tr>
+
+                        <tr t-foreach="doc.line_ids" t-as="line">
+                            <td style="width: 5%; border: 1px solid black; text-align: center;">
+                                <span t-field="line.serial_no"/>
+                            </td>
+                            <td style="width: 20%; border: 1px solid black; text-align: center;">
+                                <span t-field="line.material"/>
+                            </td>
+                            <td style="width: 18%; border: 1px solid black; text-align: center;">
+                                <span t-field="line.part_number"/>
+                            </td>
+                            <td style="width: 8%; border: 1px solid black; text-align: center;">
+                                <span t-field="line.batch_number"/>
+                            </td>
+                            <td style="width: 8%; border: 1px solid black; text-align: center;">
+                                <span t-field="line.lot_number"/>
+                            </td>
+                            <td style="width: 12%; border: 1px solid black; text-align: center;">
+                                <span t-field="line.quantity"/>
+                            </td>
+                            <td style="width: 25%; border: 1px solid black; text-align: center;">
+                                <span t-field="line.remarks"/>
+                            </td>
+                        </tr>
+
+                    </table>
+                    <div style="height: 20px;"> </div>
+
+                    <table class="table table-sm mb-2" style="width: 100%; border: 1px solid black; border-collapse: collapse;">
+                        <tr>
+                            <td style="width: 50%; text-align: left; padding: 5px; border-right: 1px solid black;">
+                                <strong>Requisition Made By</strong>
+                            </td>
+                            <t t-if="doc.role_field == 'certifying_staff'">
+                                <td style="width: 50%; text-align: left; padding: 5px;">
+                                    <strong>
+                                        <span style="text-decoration: line-through;">Workshop Manager</span> / Certifying Staff
+                                    </strong>
+                                </td>
+                            </t>
+                            <t t-else="">
+                                <td style="width: 50%; text-align: left; padding: 5px;">
+                                    <strong>
+                                        <span style="">Certifying Staff</span> / Workshop Manager
+                                    </strong>
+                                </td>
+                            </t>
+                        </tr>
+                    </table>
+
+                    <table class="table table-sm mb-2" style="width: 100%; border: 1px solid black; border-collapse: collapse;">
+                        <tr>
+                            <td style="width: 50%; text-align: left; padding: 5px; border-right: 1px solid black;">
+                                <strong>Name of Person</strong>
+                            </td>
+                            <td style="width: 50%; text-align: left; padding: 5px;">
+                                <span t-field="doc.person_name"/>
+                            </td>
+                        </tr>
+                    </table>
+                    <table class="table table-sm mb-2" style="width: 100%; border: 1px solid black; border-collapse: collapse;">
+                        <tr>
+                            <td style="width: 50%; text-align: left; padding: 5px; border-right: 1px solid black;">
+                                <strong>Signature:</strong>
+                            </td>
+                            <td style="text-align: center;">
+                                <img t-if="doc.signature"
+                                     t-att-src="'data:image/png;base64,%s' % doc.signature.decode('utf-8')"
+                                     width="200"/>
+                                <span t-if="doc.doc_date_sign" style="font-size:12px; display:block; margin-top:1px;">
+                                    <t t-esc="doc.doc_date_sign.strftime('%d/%m/%Y %H:%M')"/>
+                                </span>
+                            </td>
+                        </tr>
+                    </table>
+                    <div style="text-align: left; margin-top: 20px; font-weight: bold;">
+                        <strong>Issue: 01, Rev:-04, Dated: JULY-2023</strong>
+                    </div>
+
+                </div>
+            </t>
+        </t>
+    </template>
+
+    <record id="report_requisition_slip_pdf" model="ir.actions.report">
+        <field name="name">Requisition Slip PDF</field>
+        <field name="model">requisition.slip</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">jss_code.report_requisition_slip_template</field>
+        <field name="report_file">jss_code.report_requisition_slip_template</field>
+        <field name="print_report_name">'Requisition Slip - %s.pdf' % (object.workorder_id.operator_work_order_no or '')</field>
+        <field name="paperformat_id" ref="jss_code.paperformat_workshop_register_landscape"/>
+    </record>
+</odoo>

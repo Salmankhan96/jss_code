@@ -1,0 +1,201 @@
+<odoo>
+    <template id="report_logistics_grn">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <div class="page"
+                     style="font-family: Arial, sans-serif; font-size: 12px;border:1px solid black;border-bottom:none;">
+<!--                    <table class="table table-bordered" style="border:1px solid black;">-->
+                    <table class="table table-bordered">
+                        <tbody>
+                            <tr>
+                               <td style="text-align: center; width: 30%; padding: 5px; border-right: 1px solid black; vertical-align: top;">
+                                <img t-if="o.company_id.logo"
+                                     t-att-src="'data:image/png;base64,%s' % o.company_id.logo.decode('utf-8')"
+                                     style="padding-top:25px;width: 100%; height: auto; max-height: 135px; object-fit: contain;margin-top:-29px;margin-bottom:-37px;"/>
+                                    </td>
+
+                            <td style="width:75%; text-align:center;">
+                            <p
+                                    style="font-size: 20px; text-decoration: underline;font-weight: bold;margin-bottom:-2px;">Unserviceable Items</p>
+                            <h5 style="font-size: 16px;font-weight: bold;margin:2px;"><t t-esc="o.company_id.name"/></h5>
+                            <p style="margin: 0;"><span t-field="o.street"/>,<span t-field="o.street2"/></p>
+                            <p style="margin: 0;"><span t-field="o.city"/>,<span t-field="o.state_id.name"/> - <span t-field="o.zip"/></p>
+                            <p style="margin:2px;">Phone No: +911 204909825, Mobile No: +91 9873980440</p>
+                            <p style="margin:2px;">Website: www.jssaviation.com | Email: info@jssaviation.com</p>
+                            <strong>GSTIN : 09AACCS2931D1ZQ</strong>
+                          </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+
+
+                    <!-- ================= Row 2: Sender + Customer ================= -->
+                    <table
+                            style="width:100%; border-collapse:collapse;border:1px solid black;border-bottom:none;border-left:none;border-right:none;">
+                        <tr>
+                            <!-- Sender Details -->
+                            <td style="width:100%; padding:10px; vertical-align:top;">
+                                <h4 style="margin:0;">Customer / Sender Details</h4>
+                                 <p style="margin:0;">
+                                    <strong>Name:</strong>
+                                    <t t-esc="o.customer_id.name"/>
+                                </p>
+                                 <p style="margin:0;">
+                                    <strong>Address:</strong>
+                                    <t t-esc="o.customer_id.street"/>
+                                    <t t-esc="o.customer_id.city"/>
+                                </p>
+                                 <p style="margin:0;">
+                                    <strong>Contact:</strong>
+                                    <t t-esc="o.customer_id.phone"/>
+                                </p>
+                            </td>
+                        </tr>
+                    </table>
+
+                    <!-- ================= Row 3: GRN Details ================= -->
+                    <table
+                            style="width:100%; border-collapse:collapse; border:1px solid black;border-bottom:none;border-left:none;border-right:none;">
+                        <tr>
+                            <td style="padding:5px;border:1px solid black;border-left:none;">
+                                <strong>GRN No:</strong>
+                                <t t-esc="o.name"/>
+                            </td>
+                            <td style="padding:5px;border:1px solid black;">
+                                <strong>Order Type:</strong>
+                                <t t-esc="o.order_type"/>
+                            </td>
+                            <td style="padding:5px;border:1px solid black;border-right:none;">
+                                <strong>Order No.:</strong>
+                                <t t-esc="o.order_value"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="padding:5px;border:1px solid black;border-left:none;">
+                                <strong>Order Date:</strong>
+                                <t t-if="o.order_date">
+                                    <t t-esc="o.order_date.strftime('%d-%m-%Y')"/>
+                                </t>
+                            </td>
+                            <td style="padding:5px;border:1px solid black;">
+                                <strong>Stage:</strong>
+                                <t t-esc="o.stage"/>
+                            </td>
+                            <td style="padding:5px;border:1px solid black;border-right:none;">
+                                <strong>Procedure Sheet:</strong>
+                                <t t-esc="o.procedure_sheet"/>
+                            </td>
+                        </tr>
+                         <tr>
+                            <td style="padding:5px;border:1px solid black;border-left:none;border-bottom:none;">
+                                <strong>Unserviceable Date:</strong>
+                                <t t-if="o.grn_date">
+                                    <t t-esc="o.grn_date.strftime('%d-%m-%Y')"/>
+                                </t>
+                            </td>
+                             <td style="border:1px solid black;border-bottom:none;"></td>
+                             <td style="border:1px solid black;border-bottom:none;"></td>
+                        </tr>
+                    </table>
+
+                    <!-- ================= Row 4: Product Lines ================= -->
+                    <table
+                            style="width:100%; border-collapse:collapse;border:1px solid black;border-left:none;border-right:none;">
+                        <thead style="font-weight:bold; text-align:center;">
+                             <tr >
+                                <th name="th_serial"
+                                    style="border: 1px solid black; border-collapse: collapse; width: 5%;border-left:none;" class="text-center">S.No</th>
+                                <th name="th_description" style="border: 1px solid black; border-collapse: collapse; width: 10%; " class="text-center">Description</th>
+                                <th name="th_description" style="border: 1px solid black; border-collapse: collapse; width: 10%; " class="text-center">Part No.</th>
+                                <th name="th_quantity" style="border: 1px solid black; border-collapse: collapse;width: 10%;" class="text-center">S.No./Batch No./Lot No.</th>
+                                <th name="th_total" style="border: 1px solid black; border-collapse: collapse;width:10%;" class="text-center">Aircraft Type</th>
+                                <th name="th_total" style="border: 1px solid black; border-collapse: collapse;width: 10%;" class="text-center">Registration No.</th>
+                                <th name="th_total" style="border: 1px solid black; border-collapse: collapse;width: 8%;" class="text-center">Quantity</th>
+                                <th name="th_total" style="border: 1px solid black; border-collapse: collapse;width: 6%;" class="text-center">Unit</th>
+                                <th name="th_total" style="border: 1px solid black; border-collapse: collapse;width: 10%;" class="text-center">Expiry</th>
+                                <th name="th_total" style="border: 1px solid black; border-collapse: collapse;width: 10%;" class="text-center">Location</th>
+                                <th name="th_total"
+                                    style="border: 1px solid black; border-collapse: collapse;width: 19%;border-right:none;" class="text-center">Condition / Remarks/ Reason</th>
+                              </tr>
+                        </thead>
+                        <tbody>
+                            <t t-set="counter" t-value="0"/>
+                            <t t-foreach="o.unservice_item_line_ids" t-as="line">
+                                <t t-set="counter" t-value="counter + 1"/>
+                                <tr>
+                                    <td style="padding:5px; text-align:center;border:1px solid black;border-left:none;">
+                                        <t t-esc="counter"/>
+                                    </td>
+                                    <td style="padding:5px;border:1px solid black;">
+                                        <t t-esc="line.description"/>
+                                    </td>
+                                    <td style="padding:5px; text-align:center;border:1px solid black;">
+                                        <t t-esc="line.product_id.display_name"/>
+                                    </td>
+                                    <td style="padding:5px; text-align:center;border:1px solid black;">
+                                        <t t-esc="line.identifier_value"/>
+                                    </td>
+                                    <td style="padding:5px; text-align:center;border:1px solid black;">
+                                        <t t-esc="line.aircraft_type"/>
+                                    </td>
+                                    <td style="padding:5px; text-align:center;border:1px solid black;">
+                                        <t t-esc="line.registration_no"/>
+                                    </td>
+                                    <td style="padding:5px; text-align:right;border:1px solid black;">
+                                        <t t-esc="line.quantity"/>
+                                    </td>
+                                    <td style="padding:5px; text-align:right;border:1px solid black;">
+                                        <t t-esc="line.product_uom.name"/>
+                                    </td>
+                                    <td style="padding:5px; text-align:right;border:1px solid black;">
+                                        <t t-if="line.expiry">
+                                            <t t-esc="line.expiry.strftime('%d-%m-%Y')"/>
+                                        </t>
+                                    </td>
+                                    <td style="padding:5px; text-align:right;border:1px solid black;">
+                                        <t t-esc="line.location_id"/>
+                                    </td>
+                                    <td style="padding:5px; text-align:right;border:1px solid black;border-right:none;">
+                                        <t t-esc="line.condition_remarks"/>
+                                    </td>
+                                </tr>
+                            </t>
+                        </tbody>
+                    </table>
+
+
+                    <table
+                            style="width: 100%; font-size: 12px;border:1px solid black;border-top:none;border-left:none;border-right:none;">
+                        <tr>
+                            <td style="width:60%;">
+
+                            </td>
+                            <td style="width:40%; text-align:right; padding-right:10px;">
+                                <div>
+                                    <strong style="font-size:14px;">For JSS AVIATION ENGINEERING AND MAINTENANCE PVT. LTD.</strong>
+                                </div>
+                                <div style="height:36px;">
+
+                                </div>
+                                <div style="width: 100%; text-align: right;">
+                                    <t t-if="o.signature">
+                                        <img t-att-src="'data:image/png;base64,%s' % o.signature.decode('utf-8')"
+                                             style="width:150px;
+                                                    max-height:140px;
+                                                    object-fit:contain;
+                                                    display:inline-block;"/>
+                                    </t>
+                                </div>
+
+                                <div style="text-align:right;">
+                                    <strong>Authorised Signatory</strong>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </t>
+        </t>
+    </template>
+</odoo>

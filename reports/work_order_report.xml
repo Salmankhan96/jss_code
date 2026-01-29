@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="action_report_aircraft_workorder_pdf" model="ir.actions.report">
+        <field name="name">Aircraft Work Order PDF</field>
+        <field name="model">aircraft.component.workorder</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">jss_code.template_workorder_pdf</field>
+        <field name="report_file">jss_code.template_workorder_pdf</field>
+        <field name="print_report_name">'Work Order - %s' % (object.form_no2 or 'no2')</field>
+        <field name="binding_model_id" ref="model_aircraft_component_workorder"/>
+        <field name="binding_type">report</field>
+    </record>
+
+    <record id="action_report_job_allocation_form_pdf" model="ir.actions.report">
+        <field name="name">Job Allocation Form PDF</field>
+        <field name="model">job.allocation.form</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">jss_code.report_job_allocation_template</field>
+        <field name="report_file">jss_code.report_job_allocation_template</field>
+        <field name="print_report_name">'Job Allocation - %s' % (object.serial_no or 'N/A')</field>
+        <field name="binding_model_id" ref="model_job_allocation_form"/>
+        <field name="binding_type">report</field>
+    </record>
+
+    <record id="action_report_delivery_challan_pdf" model="ir.actions.report">
+        <field name="name">Delivery Challan PDF</field>
+        <field name="model">delivery.challan</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">jss_code.report_delivery_challan_template</field>
+        <field name="report_file">jss_code.report_delivery_challan_template</field>
+        <field name="print_report_name">'Delivery Challan - %s' % (object.challan_no or 'N/A')</field>
+        <field name="paperformat_id" ref="jss_code.paperformat_workshop_register_landscape"/>
+        <field name="binding_model_id" ref="model_delivery_challan"/>
+        <field name="binding_type">report</field>
+    </record>
+
+    <report
+            id="action_report_workorder_pdf"
+            model="aircraft.component.workorder"
+            string="Aircraft Work Order PDF"
+            report_type="qweb-pdf"
+            name="jss_code.template_workorder_pdf"
+            file="jss_code.template_workorder_pdf"
+            print_report_name="'WorkOrder_' + (object.form_no2 or 'no2')"
+    />
+
+    <report
+            id="report_job_allocation_pdf"
+            model="job.allocation.form"
+            string="Form No $"
+            report_type="qweb-pdf"
+            name="jss_code.report_job_allocation_template"
+            file="jss_code.report_job_allocation_template"
+            print_report_name="'Form_No_$_%s' % (object.name or '')"
+    />
+
+
+</odoo>

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+
+    <!-- ACCESS RIGHTS FOR ACCESS.PERMISSION.LINE -->
+    <record id="access_access_permission_line_user" model="ir.model.access">
+        <field name="name">access.permission.line.user</field>
+        <field name="model_id" ref="model_access_permission_line"/>
+        <field name="group_id" ref="group_engineer"/>
+        <field name="perm_read" eval="1"/>
+        <field name="perm_write" eval="1"/>
+        <field name="perm_create" eval="1"/>
+        <field name="perm_unlink" eval="1"/>
+    </record>
+
+    <!-- FORM VIEW FOR ACCESS.PERMISSION.LINE -->
+    <record id="view_form_access_permission_line" model="ir.ui.view">
+        <field name="name">access.permission.line.form</field>
+        <field name="model">access.permission.line</field>
+        <field name="arch" type="xml">
+            <form string="Permission">
+                <group>
+                    <field name="form_model" readonly="1"/>
+                    <field name="form_record_id" readonly="1"/>
+                    <field name="user_id"/>
+                    <field name="permission_type"/>
+                    <field name="used" readonly="1"/>
+                    <field name="granted" string="Grant Permission" />
+                    <field name="granted_by_id" readonly="1"/>
+                    <field name="granted_on" readonly="1"/>
+                </group>
+            </form>
+        </field>
+    </record>
+
+    <!-- TREE VIEW FOR ACCESS.PERMISSION.LINE -->
+    <record id="view_tree_access_permission_line" model="ir.ui.view">
+        <field name="name">access.permission.line.tree</field>
+        <field name="model">access.permission.line</field>
+        <field name="arch" type="xml">
+            <tree string="Permissions">
+                <field name="form_model"/>
+                <field name="form_record_id"/>
+                <field name="user_id"/>
+                <field name="permission_type"/>
+                <field name="used"/>
+                <field name="granted_by_id"/>
+                <field name="granted_on"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- ACTION TO SEE PERMISSIONS -->
+    <record id="action_access_permission_line" model="ir.actions.act_window">
+        <field name="name">Access Permissions</field>
+        <field name="res_model">access.permission.line</field>
+        <field name="view_mode">tree,form</field>
+        <field name="groups_id" eval="[(4, ref('group_engineer'))]"/>
+    </record>
+
+    <!-- MENU ITEM -->
+    <menuitem id="menu_access_permission_root" name="Access Permissions" sequence="100" groups="group_engineer"/>
+    <menuitem id="menu_access_permission_line" name="Permission Lines" parent="menu_access_permission_root" action="action_access_permission_line"/>
+</odoo>

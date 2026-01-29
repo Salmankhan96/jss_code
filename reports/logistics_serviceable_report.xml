@@ -1,0 +1,175 @@
+<odoo>
+  <template id="report_serviceable_items">
+   <t t-call="web.basic_layout">
+            <t t-foreach="docs" t-as="doc">
+                <div class="page" style="font-family: Arial, sans-serif; font-size: 12px;border:1px solid black;">
+                    <table class="table table-bordered"
+                           style="border-bottom:1px solid black;border-top:1px solid black;border-right:1px solid black;">
+                        <tbody>
+                            <tr>
+                               <td style="text-align: center; width: 30%; padding: 5px; border-right: 1px solid black; vertical-align: top;">
+                                <img t-if="doc.company_id.logo"
+                                     t-att-src="'data:image/png;base64,%s' % doc.company_id.logo.decode('utf-8')"
+                                     style="width: 100%; height: auto; max-height: 130px; object-fit: contain;"/>
+                                </td>
+
+                                <td colspan="3" style="width: 70%; text-align: center;">
+                                    <p
+                                            style="font-size: 20px; text-decoration: underline;font-weight: bold;margin-bottom:-2px;">Serviceable Items</p>
+<!--                                    <p style="font-size: 16px;font-weight: bold;margin-bottom:-2px;">JSS AVIATION ENGINEERING AND MAINTENANCE PVT. LTD.</p>-->
+                                    <p style="font-size: 16px;font-weight: bold;margin-bottom:-2px;"><t t-esc="doc.company_id.name"/></p>
+                                    <p style="font-size: 12px;margin-bottom:-2px;"><t t-esc="doc.street"/></p>
+                                    <p style="font-size: 12px;margin-bottom:-2px;"><t t-esc="doc.street2"/>  <t t-esc="doc.city"/>  <t t-esc="doc.state_id.name"/> <t t-esc="doc.country_id.name"/>   <t t-esc="doc.zip"/></p>
+                                    <span>Phone No: +911 204909825  </span>, <span>Mobile No: +91 9873980440</span><br/>
+                                    <span>Website: www.jssaviation.com</span>,
+                                    <span>Email: info@jssaviation.com</span>
+                                  <p style="font-size: 12px;font-weight: bold;margin-bottom:-2px;">GSTIN : 09AACCS2931D1ZQ</p>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                  <div class="row" style="margin-top:-16px;border-bottom:1px solid black;font-size: 12px;">
+                    <div class="col-6" style="border-right: 1px solid black;">
+                       <p style="margin-left:10px;margin-bottom:3px;">
+                          <strong>Sequence No. :</strong>   <span t-esc="doc.name"/></p>
+                      <p style="margin-left:10px;margin-bottom:3px;"><strong>Received From :</strong>
+                            <span t-esc="doc.source_from"/></p>
+                        <t t-if="doc.source_from =='customer'">
+                             <p style="margin-left:10px;margin-bottom:3px;"><strong>Customer :</strong>
+                              <span t-esc="doc.partner_id.name"/></p>
+                          <p style="margin-left:10px;margin-bottom:3px;"><strong>Delivery Challan / Invoice No. :</strong>
+                              <span t-esc="doc.delivery_challan"/></p>
+                          <p style="margin-left:10px;margin-bottom:3px;"><strong>Delivery Challan / Invoice Date :</strong>
+                             <t t-if="doc.delivery_date">
+                                <span t-esc="doc.delivery_date.strftime('%d-%m-%Y')"/>
+                             </t>
+                          </p>
+
+                        </t>
+                        <t t-if="doc.source_from == 'jss_ampl'">
+                            <p style="margin-left:10px;margin-bottom:3px;"><strong>RFQ Reference :</strong>
+                              <span t-esc="doc.rfq_ref"/></p>
+                            <p style="margin-left:10px;margin-bottom:3px;"><strong>Quotation Reference :</strong>
+                              <span t-esc="doc.quotation_ref"/></p>
+                            <p style="margin-left:10px;margin-bottom:3px;"><strong>Quotation Reference :</strong>
+                              <span t-esc="doc.quotation_ref"/></p>
+                            <p style="margin-left:10px;margin-bottom:3px;"><strong>PO Number :</strong>
+                              <span t-esc="doc.po_number"/></p>
+                            <p style="margin-left:10px;margin-bottom:3px;"><strong>PO Date :</strong>
+                                <t t-if="doc.po_date">
+                                    <span t-esc="doc.po_date.strftime('%d-%m-%Y')"/>
+                                </t>
+                            </p>
+                        </t>
+                    </div>
+                    <div class="col-6" >
+                      <p style="margin-left:10px;margin-bottom:3px;">
+                          <strong>Supplied By :</strong>  <span t-esc="doc.supplied_by"/></p>
+                      <p style="margin-left:10px;margin-bottom:3px;"><strong>Certificate No. :</strong>
+                           <span t-esc="doc.certificate_no"/></p>
+                      <p style="margin-left:10px;margin-bottom:3px;"><strong>Certificate Date :</strong>
+                          <t t-if="doc.certificate_date">
+                            <span t-esc="doc.certificate_date.strftime('%d-%m-%Y')"/>
+                          </t>
+                      </p>
+                      <p style="margin-left:10px;margin-bottom:3px;"><strong>Physical Condition :</strong>
+                           <span t-esc="doc.physical_condition"/></p>
+                      <p style="margin-left:10px;margin-bottom:3px;"><strong>Self Life :</strong>
+                         <span t-esc="doc.self_life"/></p>
+                      <p style="margin-left:10px;margin-bottom:3px;"><strong>Accessories  :</strong>
+                          <span t-esc="doc.accessories"/></p>
+                    </div>
+
+                  </div>
+                <table class="table table-sm o_main_table table-borderless"
+                       style="border-left: none;!important font-size: 12px;border-collapse: collapse;">
+                    <thead style="display: table-row-group;font-size: 12px;border-collapse: collapse;border-bottom: 1px solid black;">
+                      <tr >
+                        <th name="th_serial" style="border: 1px solid black;border-left:none; border-collapse: collapse; width: 5%;" class="text-center">S.No.</th>
+                        <th name="th_part" style="border: 1px solid black; border-collapse: collapse; width: 20%; " class="text-center">Description</th>
+                        <th name="th_description" style="border: 1px solid black; border-collapse: collapse; width: 20%;" class="text-center">Part Number</th>
+                        <th name="th_batch" style="border: 1px solid black; border-collapse: collapse; width: 5%;" class="text-center">S.No</th>
+                        <th name="th_batch" style="border: 1px solid black; border-collapse: collapse; width: 5%;" class="text-center">Batch No.</th>
+                        <th name="th_lot" style="border: 1px solid black; border-collapse: collapse; width: 5%;" class="text-center">Lot No.</th>
+                        <th name="th_hsn" style="border: 1px solid black; border-collapse: collapse;width: 8%;" class="text-center">Qty Demanded</th>
+                        <th name="th_total" style="border: 1px solid black; border-collapse: collapse;width:8%;" class="text-center">Qty Received</th>
+                        <th name="th_total" style="border: 1px solid black; border-collapse: collapse;width: 8%;" class="text-center">Qty Rejected</th>
+
+                      </tr>
+                    </thead>
+                    <tbody>
+                        <t t-set="index" t-value="1"/>
+                      <t t-foreach="doc.line_ids" t-as="line">
+                        <tr>
+                          <td style="text-align:left; border-top: none; border-left: none; border-bottom: none; border-right: 1px solid black; padding-left: 5px; font-size: 12px;">
+<!--                              <span t-esc="index"/>-->
+                              <span t-esc="line.serial_no"/>
+                          </td>
+                          <td style="text-align:left; border-top: none; border-left: none; border-bottom: none; border-right: 1px solid black; padding-left: 5px; font-size: 12px;">
+                              <span t-esc="line.description or ''"/>
+                          </td>
+                            <td style="text-align:left; border-top: none; border-left: none; border-bottom: none; border-right: 1px solid black; padding-left: 5px; font-size: 12px;">
+                              <span t-esc="line.part_no.name"/>
+                          </td>
+                             <td style="text-align:left; border-top: none; border-left: none; border-bottom: none; border-right: 1px solid black; padding-left: 5px; font-size: 12px;">
+                              <span t-esc="line.serial_no2"/>
+                          </td>
+                                 <td style="text-align:left; border-top: none; border-left: none; border-bottom: none; border-right: 1px solid black; padding-left: 5px; font-size: 12px;">
+                              <span t-esc="line.batch_no"/>
+                          </td>
+                             <td style="text-align:left; border-top: none; border-left: none; border-bottom: none; border-right: 1px solid black; padding-left: 5px; font-size: 12px;">
+                              <span t-esc="line.lot_no"/>
+                          </td>
+
+                          <td style="text-align:left; border-top: none; border-left: none; border-bottom: none; border-right: 1px solid black; padding-left: 5px; font-size: 12px;">
+                              <span t-esc="line.qty_demanded or ''"/>
+                          </td>
+                          <td style="text-align:left; border-top: none; border-left: none; border-bottom: none; border-right: 1px solid black; padding-left: 5px; font-size: 12px;">
+                              <span t-esc="line.qty_received"/>
+                          </td>
+                          <td style="text-align:left; border-top: none; border-left: none; border-bottom: none; border-right: 1px solid black; padding-left: 5px; font-size: 12px;text-align:center;">
+                              <span t-esc="line.qty_rejected"/>
+                          </td>
+                        </tr>
+                          <t t-set="index" t-value="index + 1"/>
+                      </t>
+                    </tbody>
+                      <tbody style="border-bottom: 1px solid black;border-left: none;">
+                       <t t-set="blank_rows" t-value="18 - len(doc.line_ids)"/>
+                            <t t-if="blank_rows &gt; 0">
+                                <t t-foreach="range(blank_rows)" t-as="i">
+                                    <tr style="height: 19px;">
+                                        <!-- Add blank cells with consistent borders -->
+                                        <td style="border-left: 1px solid black;border-left:none; border-right: 1px solid black;"> </td>
+                                        <td style="border-left: 1px solid black;border-left:none; border-right: 1px solid black;"> </td>
+                                        <td style="border-left: 1px solid black;border-left:none; border-right: 1px solid black;"> </td>
+                                        <td style="border-left: 1px solid black;border-left:none; border-right: 1px solid black;"> </td>
+                                        <td style="border-left: 1px solid black;border-left:none; border-right: 1px solid black;"> </td>
+                                        <td style="border-left: 1px solid black;border-left:none; border-right: 1px solid black;"> </td>
+                                        <td style="border-left: 1px solid black;border-left:none; border-right: 1px solid black;"> </td>
+                                        <td style="border-left: 1px solid black;border-left:none; border-right: 1px solid black;"> </td>
+                                        <td style="border-left: 1px solid black;border-left:none; border-right: 1px solid black;"> </td>
+                                    </tr>
+                                </t>
+                            </t>
+                            </tbody>
+
+                            <table style="width: 100%; font-size: 12px;border-left:none;">
+                                <th colspan="1" style="font-size: 12px; text-align: right;"> </th>
+                                <th colspan="7" style="font-size: 12px; text-align: right;padding-right: 10px;">
+                                 <strong>For JSS AVIATION ENGINEERING AND MAINTENANCE PVT. LTD.</strong>
+                                    <p style="margin-top:40px;">
+                                        <strong>Authorised Signatory</strong>
+                                    </p>
+                                </th>
+                            </table>
+                  </table>
+                </div>
+
+            </t>
+        </t>
+  </template>
+
+</odoo>
+
+

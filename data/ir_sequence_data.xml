@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data noupdate="1">
+        <record id="seq_amo_work_order" model="ir.sequence">
+            <field name="name">AMO Work Order</field>
+            <field name="code">jss_code.amo.work.order</field>
+            <field name="prefix"></field>
+            <field name="padding">5</field>
+            <field name="number_next">1</field>
+            <field name="number_increment">1</field>
+        </record>
+
+        <record id="seq_job_allocation" model="ir.sequence">
+            <field name="name">Job Allocation</field>
+            <field name="code">jss.job.allocation</field>
+            <field name="prefix"></field>
+            <field name="padding">5</field>
+            <field name="number_next">1</field>
+            <field name="number_increment">1</field>
+        </record>
+
+        <record id="seq_requisition_slip" model="ir.sequence">
+            <field name="name">Requisition Slip</field>
+            <field name="code">jss.requisition.slip</field>
+            <field name="prefix"></field>
+            <field name="padding">5</field>
+            <field name="number_next">1</field>
+            <field name="number_increment">1</field>
+        </record>
+
+        <record id="seq_delivery_challan" model="ir.sequence">
+            <field name="name">Delivery Challan</field>
+            <field name="code">jss.delivery.challan</field>
+            <field name="prefix"></field>
+            <field name="padding">5</field>
+            <field name="number_next">1</field>
+            <field name="number_increment">1</field>
+        </record>
+
+
+    <record id="unserviceable_seq" model="ir.sequence">
+        <field name="name">GRN Sequence</field>
+        <field name="code">logistics.unservice.item</field>
+        <field name="prefix">GRN-Un/</field>
+        <field name="padding">4</field>
+        <field name="number_next">1</field>
+    </record>
+
+   <record id="seq_ro" model="ir.sequence">
+    <field name="name">RO Sequence</field>
+    <field name="code">order.sequence.ro</field>
+    <field name="prefix">RO/</field>
+    <field name="padding">4</field>
+</record>
+
+<record id="seq_po" model="ir.sequence">
+    <field name="name">PO Sequence</field>
+    <field name="code">order.sequence.po</field>
+    <field name="prefix">PO/</field>
+    <field name="padding">4</field>
+</record>
+
+    <record id="seq_so" model="ir.sequence">
+        <field name="name">SO Sequence</field>
+        <field name="code">order.sequence.so</field>
+        <field name="prefix">SO/</field>
+        <field name="padding">4</field>
+    </record>
+
+    <record id="serviceable_seq" model="ir.sequence">
+        <field name="name">Serviceable Sequence</field>
+        <field name="code">logistics.service.item</field>
+        <field name="prefix">GRN-Ser/</field>
+        <field name="padding">4</field>
+    </record>
+
+   <record id="seq_store_requisition" model="ir.sequence">
+        <field name="name">Store Requisition</field>
+        <field name="code">store.requisition</field>
+        <field name="prefix">REQ/</field>
+        <field name="padding">4</field>
+        <field name="number_next">1</field>
+        <field name="number_increment">1</field>
+    </record>
+
+
+
+
+
+    </data>
+</odoo>

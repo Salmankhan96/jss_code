@@ -1,0 +1,247 @@
+<odoo>
+  <template id="report_repair_order_document">
+    <t t-call="web.basic_layout">
+      <t t-foreach="docs" t-as="o">
+
+        <div class="page" style="font-family: Arial, sans-serif; font-size: 12px;">
+          <style>
+            @page {
+              size: A4 landscape;
+              margin: 15mm;
+            }
+          </style>
+
+          <table style="width: 100%; border-collapse: collapse; border: 1px solid #000;">
+            <tr>
+              <td colspan="4" style="padding: 0;">
+
+                <table style="width: 100%; border-collapse: collapse; table-layout: fixed; border: 1px solid #000; margin-bottom: -1px;">
+                <tr>
+                  <td style="width: 30%; border-right: 1px solid #000; padding: 8px; text-align: left; font-weight: bold;">
+                    1. DGCA, India
+                  </td>
+                  <td style="width: 40%; border-right: 1px solid #000; padding: 8px; text-align: center; font-weight: bold;font-size:16px;">
+                    2. AUTHORISED RELEASE CERTIFICATE<br/>CA FORM 1
+                  </td>
+                  <td style="width: 30%; padding: 8px; text-align: left; font-weight: bold;">
+                    3. Form Tracking Number:<br/> <span t-esc="o.custom_refer"/>
+                  </td>
+                </tr>
+              </table>
+
+<table style="width: 100%; border-collapse: collapse; table-layout: fixed; border-left: 1px solid #000; border-right: 1px solid #000;">
+    <tr>
+
+        <!-- MAIN LEFT COLUMN -->
+        <td style="width: 70%; border-right: 1px solid #000; padding: 0;">
+
+            <!-- Nested table for logo (left) + text (right) -->
+            <table style="width: 100%; border-collapse: collapse;">
+                <tr>
+                    <!-- UPDATED LOGO CELL -->
+                    <td style="width: 30%;
+                               padding: 0;
+                               text-align: center;
+                               border-right: 1px solid #000;
+                               vertical-align: middle;
+                               height: 90px;">
+
+                        <img t-if="o.company_id.logo"
+                             t-att-src="'data:image/png;base64,%s' % o.company_id.logo.decode('utf-8')"
+                             style="max-width:100%;
+                                    max-height:75px;
+                                    object-fit:contain;
+                                    display:block;
+                                    margin:auto;"/>
+                    </td>
+
+                    <!-- ADDRESS RIGHT -->
+                    <td style="width: 70%; padding: 6px 10px; text-align: left; vertical-align: middle;">
+                        <div>
+                            <p style="font-size: 13px; font-weight: bold; margin:0;">
+                                4. Approved Organization Name and Address
+                            </p>
+
+                            <p style="font-size: 13px; margin: 4px 0 0 0;">
+                                <strong><span t-field="o.company_id.name"/></strong><br/>
+                                <span t-field="o.street"/>
+                                <t t-if="o.street2">, <span t-field="o.street2"/></t><br/>
+                                <span t-field="o.city"/>,
+                                <span t-field="o.state_id.name"/> -
+                                <span t-field="o.zip"/>
+                            </p>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+
+        </td>
+
+        <!-- RIGHT SIDE COLUMN -->
+        <td style="width: 30%; padding: 10px; text-align: left; vertical-align: middle;">
+            <p style="margin: 0 0 5px; font-size:13px; font-weight: bold;">5. Work Order/Contract/Invoice</p>
+            <p style="margin: 0;"><strong><span t-esc="o.work_order_reference.operator_work_order_no"/></strong></p>
+        </td>
+
+    </tr>
+</table>
+
+
+                <table style="width: 100%; border-collapse: collapse; border: 1px solid #000;">
+                  <thead>
+                    <tr>
+                      <th style="border: 1px solid #000; padding: 5px;">6. Item</th>
+                      <th style="border: 1px solid #000; padding: 5px;">7. Description</th>
+                      <th style="border: 1px solid #000; padding: 5px;">8. Part No.</th>
+                      <th style="border: 1px solid #000; padding: 5px;">9. Qty</th>
+                      <th style="border: 1px solid #000; padding: 5px;">10. Serial/Batch No.</th>
+                      <th style="border: 1px solid #000; padding: 5px;">11. Status/Work</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <t t-set="counter" t-value="0"/>
+                    <t t-foreach="o.move_ids" t-as="line">
+                      <t t-set="counter" t-value="counter + 1"/>
+                      <tr>
+                        <td style="border: 1px solid #000; padding: 5px;" t-esc="counter"/>
+                        <td style="border: 1px solid #000; padding: 5px;" t-esc="line.product_id.display_name"/>
+                        <td style="border: 1px solid #000; padding: 5px;" t-esc="line.product_id.default_code or '0000'"/>
+                        <td style="border: 1px solid #000; padding: 5px;" t-esc="line.product_uom_qty or '0000'"/>
+                        <td style="border: 1px solid #000; padding: 5px;" t-esc="line.other"/>
+                        <td style="border: 1px solid #000; padding: 5px;" t-esc="line.get_status_work_display()"/>
+                      </tr>
+                    </t>
+                  </tbody>
+                </table>
+
+
+                <div style="width: 100%; border: 1px solid #000; padding: 10px; min-height: 80px; box-sizing: border-box;">
+                    <strong>12. Remarks:</strong>
+                    <span t-esc="o.custom_remark"/>
+                </div>
+
+
+
+                <div style="position: relative; background: white; width: 100%;">
+
+                  <svg style="position: absolute; top: 0; left: 0; width: 100%; height: 325px; pointer-events: none; z-index: 10;">
+                    <line x1="0%" y1="0%" x2="50%" y2="100%" stroke="black" stroke-width="2"/>
+                    <line x1="50%" y1="0%" x2="0%" y2="100%" stroke="black" stroke-width="2"/>
+                  </svg>
+
+                  <table style="width: 100%; border-collapse: collapse;">
+                    <tr>
+                      <td style="width: 50%; border: 1px solid #000; padding: 10px; vertical-align: top; position: relative; height: 100px; background-color: #808080;">
+                        <strong>13a. Certifies that the items identified above were manufactured in conformity to:</strong>
+                        <br/><br/>
+                          <p></p>
+                          <p></p>
+                        <label style="width:100%">
+                          <input type="checkbox" style="margin-right: 6px;"/>
+                          approved design data and are in condition for safe operation
+                        </label>
+                          <br/>
+                          <p></p>
+                          <p></p>
+
+                        <label style="width:100%">
+                          <input type="checkbox" style="margin-right:6px;"/>
+                          non approved design data specification in block12
+                        </label>
+                      </td>
+                      <td style="width: 50%; border: 1px solid #000; padding: 10px; vertical-align: top; height: 100px; background: white;">
+                        <strong>14a. CAR 145.A.50 Release:</strong>
+                        <br/><br/>
+                        <label style="width:100%">
+                          <input type="checkbox" style="margin-right: 6px;"/>
+                          Other regulation specified in block12.
+                        </label>
+                        <br/><br/>
+                        Certifies that unless otherwise specified in block 12, the work identified in block11 and described in block12,
+                        was accomplished in accordance with CAR 145 and in respect to that work the items are considered ready for release to service.
+                      </td>
+                    </tr>
+                  </table>
+
+                  <table style="width: 100%; border-collapse: collapse;">
+                    <tr>
+                      <td style="width: 25%; border: 1px solid #000; padding: 10px; text-align: center; height: 0px; background-color:#808080 ;">
+                        <strong>13b. Authorized Signature</strong><br/><div style="height: 40px;"> </div>
+                      </td>
+                      <td style="width: 25%; border: 1px solid #000; padding: 0px; text-align: center; height: 80px; background-color: #808080;">
+                        <strong>13c. Approval/Authorization Number</strong><br/><div style="height: 40px;"> </div>
+                      </td>
+                      <td style="width: 25%; border: 1px solid #000; padding: 10px; text-align: center; height: 80px; background: white;">
+                        <strong>14b. Digital Signature</strong><br/><div style="height: 40px;">
+                        <img t-if="o.signature"
+                             t-att-src="'data:image/png;base64,%s' % o.signature.decode('utf-8')"
+                             style="max-width: 400%; max-height: 40px;" />
+                        <span t-if="o.doc_issued_date" style="font-size:8px; display:block; margin-top:1px;">
+                            <t t-esc="o.doc_issued_date.strftime('%d/%m/%Y %H:%M')"/>
+                        </span>
+
+                      </div>
+                      </td>
+                      <td style="width: 25%; border: 1px solid #000; padding: 10px; text-align: center; height: 80px; background: white;">
+                        <strong>14c. Certificate/Approval Ref No.</strong><br/><div style="height: 40px;"> JSS Aviation/DEL-11011(12)/6/2020-DAW-NR</div>
+                      </td>
+                    </tr>
+                  </table>
+
+                  <table style="width: 100%; border-collapse: collapse;">
+                    <tr>
+                      <td style="width: 25%; border: 1px solid #000; padding: 10px; text-align: center; height: 80px; background-color: #808080;">
+                        <strong>13d. Name</strong><br/><div style="height: 40px;"> </div>
+                      </td>
+                      <td style="width: 25%; border: 1px solid #000; padding: 10px; text-align: center; height: 80px; background-color: #808080;">
+                        <strong>13e. Date(dd/mm/yyyy)</strong><br/><div style="height: 40px;"> </div>
+                      </td>
+                      <td style="width: 25%; border: 1px solid #000; padding: 10px; text-align: center; height: 80px; background: white;">
+                        <strong>14d. Name</strong><br/><div style="height: 40px;"> <span t-esc="o.user_id.name"/></div>
+                      </td>
+                      <td style="width: 25%; border: 1px solid #000; padding: 10px; text-align: center; height: 80px; background: white;">
+                        <strong>14e. Date(dd/mm/yyyy)</strong><br/><div style="height: 40px;"><t t-if="o.current_date"> <span t-esc="o.current_date.strftime('%d/%m/%Y')"/></t></div>
+                      </td>
+                    </tr>
+                  </table>
+
+                </div>
+
+
+
+                <table style="width: 100%; border-collapse: collapse;">
+                  <tr>
+                    <td style="border: 1px solid #000; padding: 20px; text-align: center;">
+                      <p style="text-align: justify; margin-top: 10px;">
+                        THIS CERTIFICATE DOES NOT AUTOMATICALLY CONSTITUTE AUTHORITY TO INSTALL. WHERE THE USER/INSTALLER PERFORMS WORK IN ACCORDANCE WITH REGULATIONS OF AN AIRWORTHINESS AUTHORITY
+                        DIFFERENT THAN THE AIRWORTHINESS AUTHORITY SPECIFIED IN BLOCK 1, IT IS ESSENTIAL THAT THE USER/INSTALLER
+                        ENSURES THAT HIS/HER AIRWORTHINESS AUTHORITY ACCEPTS ITEMS FROM THE AIRWORTHINESS AUTHORITY SPECIFIED IN BLOCK 1.
+                        STATEMENTS IN BLOCKS 13A AND 14A DO NOT CONSTITUTE INSTALLATION CERTIFICATION. IN ALL CASES AIRCRAFT MAINTENANCE RECORDS
+                        MUST CONTAIN AN INSTALLATION CERTIFICATION ISSUED IN ACCORDANCE WITH THE NATIONAL REGULATIONS BY THE USER/INSTALLER BEFORE THE AIRCRAFT MAY BE FLOWN.
+                      </p>
+                    </td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+          </table>
+          <div style="text-align: left; margin-top: 20px; font-weight: bold;">
+            CA FORM 1 - ISSUE 2
+          </div>
+        </div>
+      </t>
+    </t>
+  </template>
+
+
+
+  <record id="action_report_repair_order" model="ir.actions.report">
+    <field name="name">Repair Order PDF</field>
+    <field name="model">repair.jss</field>
+    <field name="report_type">qweb-pdf</field>
+    <field name="report_name">jss_code.report_repair_order_document</field>
+    <field name="report_file">jss_code.report_repair_order_document</field>
+    <field name="print_report_name">'Repair Order - %s' % (object.custom_refer or '')</field>
+       <field name="paperformat_id" ref="jss_code.paperformat_workshop_register_landscape"/>
+  </record>
+</odoo>

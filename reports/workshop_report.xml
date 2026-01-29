@@ -1,0 +1,25 @@
+<odoo>
+  <record id="paperformat_workshop_register_landscape" model="report.paperformat">
+    <field name="name">Workshop Register Landscape</field>
+    <field name="default" eval="False"/>
+    <field name="format">A4</field>
+    <field name="orientation">Landscape</field>
+    <field name="margin_top">5</field>
+    <field name="margin_bottom">5</field>
+    <field name="margin_left">15</field>
+    <field name="margin_right">15</field>
+    <field name="header_line" eval="False"/>
+    <field name="header_spacing">0</field>
+    <field name="dpi">90</field>
+  </record>
+
+  <record id="report_workshop_pdf" model="ir.actions.report">
+    <field name="name">Workshop Register PDF</field>
+    <field name="model">workshop.register</field>
+    <field name="report_type">qweb-pdf</field>
+    <field name="report_name">jss_code.report_workshop_pdf_template</field>
+    <field name="report_file">jss_code.report_workshop_pdf_template</field>
+    <field name="print_report_name">'Workshop Register - %s.pdf' % (object.name or '')</field>
+    <field name="paperformat_id" ref="paperformat_workshop_register_landscape"/>
+  </record>
+</odoo>

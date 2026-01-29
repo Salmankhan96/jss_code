@@ -1,0 +1,93 @@
+<odoo>
+    <record id="view_workshop_register_form" model="ir.ui.view">
+        <field name="name">workshop.register.form</field>
+        <field name="model">workshop.register</field>
+        <field name="arch" type="xml">
+            <form string="Workshop Register">
+                <header>
+                    <header>
+                        <button name="action_grant_edit_permission" type="object" string="Grant Edit" class="btn-primary"
+                            groups="jss_code.group_engineer" invisible="not can_show_grant_edit"/>
+                        <button name="action_grant_download_permission" type="object" string="Grant Download" class="btn-success"
+                                groups="jss_code.group_engineer" invisible="not can_show_grant_download"/>
+                        <button name="action_request_edit" type="object" string="Request Edit"
+                                invisible="not can_show_request_edit"
+                                groups="jss_code.group_operations,jss_code.group_workshop_manager,jss_code.group_certifying_staff"/>
+                        <button name="action_request_download" type="object" string="Request Download"
+                                invisible="not can_show_request_download"
+                                groups="jss_code.group_operations,jss_code.group_workshop_manager,jss_code.group_certifying_staff,jss_code.group_store"/>
+                        <button name="action_generate_pdf"
+                            type="object"
+                            string="Download PDF"
+                            class="btn-primary"
+                            icon="fa-download"
+                            invisible="not can_download_pdf"/>
+                    </header>
+                </header>
+                <sheet>
+                    <group>
+                        <field name="has_edit_request" invisible="1"/>
+                        <field name="has_download_request" invisible="1"/>
+                        <field name="is_engineer" invisible="1"/>
+                        <field name="can_show_grant_edit" invisible="1"/>
+                        <field name="can_show_grant_download" invisible="1"/>
+                        <field name="can_show_request_edit" invisible="1"/>
+                        <field name="can_show_request_download" invisible="1"/>
+                        <field name="can_download_pdf" invisible="1"/>
+                        <field name="name"/>
+                        <field name="supplier_id"/>
+                    </group>
+                    <notebook>
+                        <page string="Product Lines">
+                            <field name="product_line_ids">
+                                <tree editable="bottom">
+                                    <field name="current_date" />
+                                    <field name="so_po_ro_no" />
+                                    <field name="manual_date" />
+                                    <field name="product_id" />
+                                    <field name="quantity" string="Qty" />
+                                    <field name="signature" />
+                                    <field name="task_to_be_done" />
+                                    <field name="handover_to" />
+                                    <field name="sign_by" />
+                                    <field name="challan_no" />
+                                    <field name="remarks" />
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter" groups="jss_code.group_super_user">
+                    <field name="message_follower_ids" widget="mail_followers"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                    <field name="activity_ids" widget="activity"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_workshop_register_tree" model="ir.ui.view">
+        <field name="name">workshop.register.tree</field>
+        <field name="model">workshop.register</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+                <field name="supplier_id"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="action_workshop_register" model="ir.actions.act_window">
+        <field name="name">Workshop Register</field>
+        <field name="res_model">workshop.register</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem
+    id="menu_workshop_root"
+    name="Workshop"
+    web_icon="jss_code,static/img/workshop.png"
+/>
+    <menuitem id="menu_workshop_register_action" name="Workshop Register" parent="menu_workshop_root"
+              action="action_workshop_register" sequence="0"/>
+</odoo>
