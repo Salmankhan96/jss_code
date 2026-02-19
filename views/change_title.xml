@@ -28,4 +28,120 @@
 
 
 
+
+  <!-- ============================= -->
+    <!--  Login Layout -->
+    <!-- ============================= -->
+    <template id="custom_login_layout"
+              inherit_id="web.login_layout"
+              name="Corporate ERP Login Layout">
+
+        <xpath expr="//div[@class='container py-5']" position="replace">
+
+            <div class="custom-login-wrapper">
+                <div class="custom-login-card">
+
+                    <!-- LEFT PANEL -->
+                    <div class="login-left">
+                        <div class="logo-company-row">
+
+                            <!-- Left Logo -->
+                            <div class="logo-left">
+                                <img t-attf-src="/web/binary/company_logo{{ '?dbname='+db if db else '' }}"
+                                     alt="Logo"
+                                     class="company-logo"/>
+                            </div>
+
+                            <!-- Right Company Name -->
+                            <div class="company-name">
+                                <h4>Jss Aviation Engineering &amp; Maintenance Pvt. Ltd</h4>
+                            </div>
+
+                        </div>
+                        <div class="wlcm">
+                            <h2>Welcome Back 👋</h2>
+
+                            <ul class="login-features">
+                                <li>• Sales &amp; CRM</li>
+                                <li>• Purchase &amp; Inventory</li>
+                                <li>• Manufacturing</li>
+                                <li>• Accounting &amp; GST</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- RIGHT PANEL -->
+                    <div class="login-right">
+                        <t t-out="0"/>
+                    </div>
+
+                </div>
+            </div>
+
+        </xpath>
+
+    </template>
+
+
+    <!-- ============================= -->
+    <!-- Login Form -->
+    <!-- ============================= -->
+    <template id="custom_login_form"
+              inherit_id="web.login"
+              name="Corporate ERP Login Form">
+
+        <xpath expr="//form" position="replace">
+
+            <form class="custom-login-form"
+                  t-attf-action="/web/login"
+                  method="post"
+                  onsubmit="this.action = '/web/login' + location.hash">
+
+                <input type="hidden"
+                       name="csrf_token"
+                       t-att-value="request.csrf_token()"/>
+
+                <h3 class="login-title">Sign In to ERP</h3>
+
+                <div class="form-group mb-3">
+                    <input type="text"
+                           name="login"
+                           placeholder="Enter Email"
+                           t-att-value="login"
+                           required="required"
+                           class="form-control custom-input"/>
+                </div>
+
+                <div class="form-group mb-3">
+                    <input type="password"
+                           name="password"
+                           placeholder="Enter Password"
+                           required="required"
+                           class="form-control custom-input"/>
+                </div>
+
+                <t t-if="error">
+                    <div class="alert alert-danger">
+                        <t t-esc="error"/>
+                    </div>
+                </t>
+
+                <button type="submit"
+                        class="btn custom-btn w-100">
+                    Log In
+                </button>
+
+                <input type="hidden"
+                       name="redirect"
+                       t-att-value="redirect"/>
+
+            </form>
+
+        </xpath>
+
+    </template>
+
+
+
+
 </odoo>

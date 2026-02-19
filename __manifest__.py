@@ -32,6 +32,9 @@
         'web.assets_backend': [
             'jss_code/static/src/js/title_patch.js',
         ],
+        'web.assets_frontend': [
+            'jss_code/static/src/css/index.css',
+        ],
     },
     'installable': True,
     'application': True,
