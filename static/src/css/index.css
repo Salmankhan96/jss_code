@@ -178,6 +178,7 @@
 .company-logo {
     max-height: 70px;
     border-radius: 10px;
+    background-color: white;
 }
 
 .company-name h4 {
