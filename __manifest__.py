@@ -2,11 +2,12 @@
     'name': 'Workshop Register',
     'version': '1.0',
     'summary': 'Manage Workshop Register linked with Suppliers and Products for Aircraft',
-    'depends': ['base', 'contacts', 'product', 'hr'],
+    'depends': ['base', 'contacts', 'product', 'hr','web'],
     'author':'Tech Rajendra',
     'data': [
         'data/ir_sequence_data.xml',
         'security/user_groups.xml',
+        'views/change_title.xml',
         'views/workshop_register_views.xml',
         'security/ir.model.access.csv',
         'reports/workshop_report_templates.xml',
@@ -27,6 +28,11 @@
         'reports/logistics_serviceable_report.xml',
         'reports/logistics_unserviceable_report.xml',
     ],
+    'assets': {
+        'web.assets_backend': [
+            'jss_code/static/src/js/title_patch.js',
+        ],
+    },
     'installable': True,
     'application': True,
     'auto_install': False,

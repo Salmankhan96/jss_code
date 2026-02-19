@@ -1,0 +1,31 @@
+<odoo>
+    <template id="my_web_title" inherit_id="web.layout">
+        <xpath expr="//title" position="replace">
+            <title>JSS AVIATION  <t t-esc="title"/></title>
+        </xpath>
+    </template>
+
+     <template id="my_favicon" inherit_id="web.layout">
+        <xpath expr="//link[@rel='shortcut icon']" position="replace">
+            <link rel="shortcut icon"
+                  type="image/x-icon"
+                  href="/jss_code/static/src/img/logo.jpeg"/>
+        </xpath>
+    </template>
+
+
+    <template id="change_powered_by" inherit_id="web.login_layout">
+
+        <!-- Replace Powered by Odoo -->
+        <xpath expr="//a[contains(@href, 'odoo.com')]" position="replace">
+            <a href="https://www.jssaviation.com/" target="_blank">
+                Powered by <span>JSS AVIATION</span>
+            </a>
+        </xpath>
+
+    </template>
+
+
+
+
+</odoo>
